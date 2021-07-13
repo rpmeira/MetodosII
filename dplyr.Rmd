@@ -1,0 +1,85 @@
+---
+title: "Dplyr"
+description:
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+date: 07-12-2021
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+```
+
+## Introdução
+
+O `dplyr` é um pacote de manipulação de dados e sua documentação pode ser encontrada em seu [site](https://dplyr.tidyverse.org/) oficial. Para instalá-lo, bastar rodar o comando (nao acrescentar no documento .Rmd, mas rodar no console):
+
+```{r, eval=FALSE}
+install.packages("dplyr")
+```
+
+E para utilizá-lo, basta rodar o comando (no caso de arquivos .Rmd, acrescentar no início do documento):
+
+```{r, eval=FALSE}
+library(dplyr)
+```
+
+O objetivo do pacote é ajudar na limpeza dos dados. Ou seja, suas funções ajudam a transformar uma tabela (usualmente um `data.frame` ou um `tibble`) "crua" em uma tabela pronta para a análise ou para a visualização.
+
+O pacote possui dezenas de funções, que podem ser agrupadas conforme o elemento da tabela ao qual elas se aplicam (colunas, linhas, grupos de linhas). As mais utilizadas são:
+
+- Colunas:
+  - `select()`: seleciona as colunas desejadas.
+  - `mutate()`: cria novas colunas ou altera valores de alguma ja existente.
+- Linhas:
+  - `filter()`: seleciona linhas com base em algum critério de uma variável (coluna).
+  - `slice()`: seleciona linhas com base em suas posições (ex. as 5 primeiras ou últimas).
+- Grupos de linhas:
+  - `summarise()`: resume um conjunto de linhas em uma única (ex. média)
+
+Para entender melhor a funcionalidade de cada uma, vamos ver como aplicá-las na prática. 
+
+### Dados
+
+Todos os exemplos a seguir se baseiam em uma tabela com valores da inflação para cada grupo de produtos. Os dados são do Sistema IBGE de Recuperação Automática ([SIDRA](https://sidra.ibge.gov.br/Tabela/1419)).
+
+Para baixar os dados, vamos utilizar a função `get_sidra()` do pacote `sidrar`. Esse pacote permite baixar tabelas da base de dados do SIDRA. Para maiores informações, recorrer à sua [documentação](https://cran.r-project.org/web/packages/sidrar/vignettes/Introduction_to_sidrar.html).
+
+Assim como foi feito para o pacote  `dply`, mostrado acima, precisamos instalar e rodar esse pacote:
+
+```{r, eval=FALSE}
+install.packages("sidrar")
+```
+
+```{r, eval=FALSE}
+library(sidrar)
+```
+
+Feito isso, para baixar a tabela desejada, utilizamos a função `get_sidra()`. O valor do parâmetro utilizado (`api`) é obtido no site do SIDRA. A documentação do pacote, apontada acima, explica passo a passo como fazê-lo.
+
+```{r}
+library(sidrar)
+```
+
+```{r}
+ipca <- get_sidra(api = '/t/1419/n1/all/v/63,66/p/all/c315/7170,7445,7486,7558,7625,7660,7712,7766,7786/d/v63%202,v66%204')
+```
+
+A função `get_sidra()` nos entrega uma tabela no formato `data.frame`. Para visualizar essa tabela, vamos utilizar a função `paged_table()` do pacote `rmarkdown`.
+
+```{r}
+library(rmarkdown)
+```
+
+```{r, layout="l-page"}
+paged_table(ipca)
+```
+
+Como é possível observar, a tabela apresenta muitas colunas (variáveis) e linhas (instâncias), o que torna mais difícil a análise dos dados. 
+
+A partir disso, nas próximas sessões vamos tratar esses dados com a ajuda do pacote `dplyr`, com o objetivo de obter uma tabela mais enxuta.
+
+
+## Colunas

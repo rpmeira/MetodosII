@@ -1,0 +1,22 @@
+---
+title: "Métodos de Análise Econômica II"
+description:
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+date: 07-12-2021
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{css, echo=FALSE}
+d-article p {
+  text-align: justify;
+  font-size: 22px;
+}
+```
+
+Esse site apresenta um material complementar às aulas da disciplina **Métodos de Análise Econômica II (CE-242)**, do Instituto de Economia da Unicamp, no segundo semestre de 2021.

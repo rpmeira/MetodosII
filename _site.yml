@@ -1,0 +1,19 @@
+name: "Metodos II"
+title: "Metodos II"
+description: |
+  Metodos II
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "Dplyr"
+      href: dplyr.html
+theme: theme.css
+output: 
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    highlight: breezedark
+    includes:
+      before_body: backtotop.html
