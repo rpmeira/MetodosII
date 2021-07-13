@@ -5,7 +5,7 @@ description: |
 output_dir: "docs"
 navbar:
   right:
-    - text: "Home"
+    - text: "Inicio"
       href: index.html
     - text: "Dplyr"
       href: dplyr.html
