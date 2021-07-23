@@ -1,0 +1,238 @@
+---
+title: "ggplot"
+description:
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+date: 07-12-2021
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+```
+
+## Introdução
+
+O `ggplot` é um pacote de visualização de dados e sua documentação pode ser encontrada em seu [site](https://ggplot2.tidyverse.org/index.html) oficial. Para instalá-lo, bastar rodar o comando (não acrescentar no documento .Rmd, mas rodar no console):
+
+```{r, eval=FALSE}
+install.packages("ggplot2")
+```
+
+E para utilizá-lo, basta rodar a função `library()` (no caso de arquivos .Rmd, acrescentar no início do documento). É uma boa prática rodar no início do arquivo todos os pacotes que iremos utilizar:
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(sidrar)
+library(lubridate)
+library(rmarkdown)
+```
+
+O `ggplot` propõe uma forma de criar gráficos baseada camadas. Com isso, é possível adicionar, alterar e/ou remover camadas específicas do gráfico, o que permite um alto nível de customização. Em geral, um gráfico do `ggplot` apresenta as seguintes camadas:
+
+- **Dados**
+- **Mapeamento**
+- **Geometrias**
+- Rótulos
+- Escalas
+- Temas
+
+Porém, apenas as três primeiras são essenciais e necessárias de ser incluídas em qualquer gráfico.
+
+Para facilitar, vamos utilizar os dado da seção sobre o pacote `dplyr`:
+
+```{r}
+ipca <- get_sidra(api = '/t/1419/n1/all/v/63,66/p/all/c315/7170,7445,7486,7558,7625,7660,7712,7766,7786/d/v63%202,v66%204')
+```
+
+```{r, layout="l-body"}
+ipca_valor <- ipca %>%
+  filter(`Variável` == "IPCA - Variação mensal") %>%
+  select("Data" = `Mês`, "Grupo" = 13, "Valor") %>%
+  mutate("Data" = `Data` %>% mdy()) %>%
+  mutate("Valor" = `Valor` / 100) 
+
+ipca_valor %>%
+  paged_table()
+```
+
+Para criar gráficos com o pacote `ggplot` precisamos fornecer pelo menos camadas referentes aos dados, mapeamento e geometria. Os dados (no caso, `ipca_valor`) entram como argumento da função `ggplot()`; o mapeamento é fornecido nos parâmetros da função `aes()`; e a geometria é indicada pela função correspondente à geometria desejada, que no exemplo a seguir será uma linha, `geom_line()`. 
+
+Cada camada é adicionada por meio do sinal de somatório, `+`, que funciona de forma semelhante ao pipe (`%>%`).
+
+Vamos adicionar essas camadas uma por uma e ver que o gráfico só surge quando incluímos as três camadas essenciais.
+
+```{r}
+ipca_valor %>%
+  ggplot() 
+```
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`)
+```
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_point()
+```
+
+## Mapeamento
+
+A função `aes()` faz o mapeamento dos dados, ou seja, ela atribui variáveis (presentes nos dados que estamos utilizando) a aspectos do gráfico, como o eixo `x`, o eixo `y`, a cor ou o tamanho. Ela pode receber um, dois, três, ou mais parâmetros, dependendo do objetivo. No exemplo acima, utilizamos três parâmetros: um para o eixo `x`, um para o eixo `y` e um para as cores. Porém, poderíamos ter utilizado menos ou mais mapeamentos. 
+
+### Eixos
+
+No exemplo acima, utilizamos as "Datas" no eixo x e o "Valor" no eixo y, mas poderíamos, por exemplo, mapear a variável "Valor" no eixo `x` e a variável "Grupo" no eixo `y`:
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Valor`, y = `Grupo`) +
+  geom_point()
+```
+
+### Cor
+
+Adicionalmente, podemos mapear a variável "Data" no parâmetro `color` (dependendo do tipo de geometria, utilizamos o parâmetro `fill`):
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Valor`, y = `Grupo`, color = `Data`) +
+  geom_point()
+```
+Podemos também repetir uma variável já utilizada em outro mapeamento. Por exemplo, além de mapear o "Grupo" no eixo `y`, vamos mapeá-lo também na cor:
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Valor`, y = `Grupo`, color = `Grupo`) +
+  geom_point()
+```
+
+
+
+### Tamanho
+
+Outro mapeamento muito utilizado é o tamanho (por meio do parâmetro `size`). Assim como a cor, ele ajuda na distinção de diferentes grupos de dados (para facilitar a visualização, filtramos apenas um dos grupos da tabela):
+
+```{r}
+ipca_valor %>%
+  filter(`Grupo` == "2.Habitação") %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, size = `Valor`) +
+  geom_point()
+```
+
+## Geometria
+
+Ao invés de um gráfico de pontos, poderíamos ter um gráfico de linha, barra, ou outro qualquer. Porém, é necessário adequar a geometria com o tipo de dados que se está trabalhando. Alguns tipos de geometria requerem mapeamentos específicos.
+
+Vejamos alguns exemplos:
+
+### Área
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_area()
+```
+
+Podemos mapear o "Grupo" com cores de preenchimento ao invés do contorno, utilizando o parâmetro `fill`, ao invés de `color`:
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, fill = `Grupo`) +
+  geom_area()
+```
+
+### Boxplot
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Valor`, y = `Grupo`) +
+  geom_boxplot()
+```
+
+### Coluna
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, fill = `Grupo`) +
+  geom_col()
+```
+
+### Densidade
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Valor`, color = `Grupo`) +
+  geom_density()
+```
+
+### Linha
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_line()
+```
+
+
+Cada função de geometria dessas possui parâmetros específicos para mudar alguns detalhes da sua forma. 
+
+## Rótulos
+
+Os rótulos de um gráfico abrangem desde o título e o subtítulo até a legenda e os nomes dos eixos. No `ggplot`, esses rótulos são indicados na função `labs()`. Alguns desses rótulos já aparecem de forma automática nos gráficos bases, porém é possível alterá-los.
+
+Vamos pegar o gráfico do exemplo acima e adicionar/modificar alguns rótulos:
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_line() +
+  labs(
+    title = "Inflação mensal por grupos",
+    subtitle = "Evolução no tempo",
+    caption = "Fonte: Elaboração própria. Dados do SIDRA",
+    x = "Ano",
+    y = "Inflação"
+  )
+```
+
+Esse rótulos podem ser customizados depois, alterando-se as propriedades do tema do gráfico, como veremos mais a frente.
+
+## Escalas
+
+Frequentemente desejamos mudar as escalas dos eixos tanto `x` quanto `y`, para facilitar o entendimento dos dados. Caso queiramos dar um *zoom* no gráfico, é preferível manipular os dados com o pacote `dplyr`. As escalas aqui são mais úteis para manipular os eixos.
+
+Existem diversas funções para manipular as escalas, cada um adequada para um tipo específico de de gráfico Usualmente essas função são da forma `scale_x_...` e `scale_y_...`. Nessas funções, nós passamos parâmetros que modificam a escala.
+
+Vamos pegar o mesmo gráfico base do exemplo anterior e modificar as escalas dos eixos. Vamos modificar a escala das datas com a função `scale_x_date()` e a escala dos valores com a função `scale_y_continuous()`
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_line() +
+  scale_x_date(date_breaks = "1 year", 
+               date_labels = "%Y") +
+  scale_y_continuous(breaks = seq(from = -0.03, to = 0.06, by = 0.01),
+                     labels = scales::percent_format(accuracy = 1))
+```
+
+## Temas
+

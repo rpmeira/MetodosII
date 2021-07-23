@@ -7,8 +7,10 @@ navbar:
   right:
     - text: "Inicio"
       href: index.html
-    - text: "Dplyr"
+    - text: "dplyr"
       href: dplyr.html
+    - text: "ggplot"
+      href: ggplot.html
 theme: theme.css
 output: 
   distill::distill_article:
