@@ -2525,6 +2525,7 @@ btn.on('click', (e) => {
 </ul></li>
 <li><a href="#rótulos">Rótulos</a></li>
 <li><a href="#escalas">Escalas</a></li>
+<li><a href="#temas">Temas</a></li>
 </ul>
 </nav>
 </div>
@@ -2732,6 +2733,20 @@ btn.on('click', (e) => {
 <p><img src="ggplot_files/figure-html5/unnamed-chunk-17-1.png" width="624" /></p>
 </div>
 <p>Cada função de geometria dessas possui parâmetros específicos para mudar alguns detalhes da sua forma.</p>
+<p>É possível acrescentar mais de uma geometria. Vamos pegar o exemplo acima e acrescentar pontos (com a função <code>geom_point()</code>), uma reta horizontal (com a função <code>geom_hline()</code>) e uma reta vertical (com a função <code>geom_vline()</code>).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca_valor</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Data`</span>, y <span class='op'>=</span> <span class='va'>`Valor`</span>, color <span class='op'>=</span> <span class='va'>`Grupo`</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_hline</a></span><span class='op'>(</span>yintercept <span class='op'>=</span> <span class='fl'>0.06</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_abline.html'>geom_vline</a></span><span class='op'>(</span>xintercept <span class='op'>=</span> <span class='st'>"2015-07-20"</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>ymd</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ggplot_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
+</div>
 <h2 id="rótulos">Rótulos</h2>
 <p>Os rótulos de um gráfico abrangem desde o título e o subtítulo até a legenda e os nomes dos eixos. No <code>ggplot</code>, esses rótulos são indicados na função <code>labs()</code>. Alguns desses rótulos já aparecem de forma automática nos gráficos bases, porém é possível alterá-los.</p>
 <p>Vamos pegar o gráfico do exemplo acima e adicionar/modificar alguns rótulos:</p>
@@ -2750,7 +2765,7 @@ btn.on('click', (e) => {
   <span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="ggplot_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
+<p><img src="ggplot_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
 </div>
 <p>Esse rótulos podem ser customizados depois, alterando-se as propriedades do tema do gráfico, como veremos mais a frente.</p>
 <h2 id="escalas">Escalas</h2>
@@ -2769,9 +2784,217 @@ btn.on('click', (e) => {
                      labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/label_percent.html'>percent_format</a></span><span class='op'>(</span>accuracy <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="ggplot_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
+<p><img src="ggplot_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="temas">Temas</h2>
+<p>O pacote <code>ggplot</code> já vem junto com diversos temas, bastando chamar a função do tema para escolhê-lo (com o nome <code>theme_...()</code>). Vamos utilizar o exemplo dos rótulos, para mostrar bem as diferenças de cada tema.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca_valor</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Data`</span>, y <span class='op'>=</span> <span class='va'>`Valor`</span>, color <span class='op'>=</span> <span class='va'>`Grupo`</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    title <span class='op'>=</span> <span class='st'>"Inflação mensal por grupos"</span>,
+    subtitle <span class='op'>=</span> <span class='st'>"Evolução no tempo"</span>,
+    caption <span class='op'>=</span> <span class='st'>"Fonte: Elaboração própria. Dados do SIDRA"</span>,
+    x <span class='op'>=</span> <span class='st'>"Ano"</span>,
+    y <span class='op'>=</span> <span class='st'>"Inflação"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ggplot_files/figure-html5/unnamed-chunk-21-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca_valor</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Data`</span>, y <span class='op'>=</span> <span class='va'>`Valor`</span>, color <span class='op'>=</span> <span class='va'>`Grupo`</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    title <span class='op'>=</span> <span class='st'>"Inflação mensal por grupos"</span>,
+    subtitle <span class='op'>=</span> <span class='st'>"Evolução no tempo"</span>,
+    caption <span class='op'>=</span> <span class='st'>"Fonte: Elaboração própria. Dados do SIDRA"</span>,
+    x <span class='op'>=</span> <span class='st'>"Ano"</span>,
+    y <span class='op'>=</span> <span class='st'>"Inflação"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_classic</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ggplot_files/figure-html5/unnamed-chunk-22-1.png" width="624" /></p>
+</div>
+<p>Existe um pacote chamado <code>ggthemes</code> que fornece temas adicionais:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"ggthemes"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/jrnold/ggthemes'>ggthemes</a></span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca_valor</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Data`</span>, y <span class='op'>=</span> <span class='va'>`Valor`</span>, color <span class='op'>=</span> <span class='va'>`Grupo`</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    title <span class='op'>=</span> <span class='st'>"Inflação mensal por grupos"</span>,
+    subtitle <span class='op'>=</span> <span class='st'>"Evolução no tempo"</span>,
+    caption <span class='op'>=</span> <span class='st'>"Fonte: Elaboração própria. Dados do SIDRA"</span>,
+    x <span class='op'>=</span> <span class='st'>"Ano"</span>,
+    y <span class='op'>=</span> <span class='st'>"Inflação"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_gdocs.html'>theme_gdocs</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ggplot_files/figure-html5/unnamed-chunk-25-1.png" width="624" /></p>
+</div>
+<p>É possível também customizar muitos aspectos do gráfico com a função <code>theme()</code>, desde tamanho e fonte dos rótulos até posição da legenda.</p>
+<p>Vamos listar todos os parâmetros que a função <code>theme()</code> recebe, através da função <code>args()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>theme</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/args.html'>args</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>function (line, rect, text, title, aspect.ratio, axis.title, 
+    axis.title.x, axis.title.x.top, axis.title.x.bottom, axis.title.y, 
+    axis.title.y.left, axis.title.y.right, axis.text, axis.text.x, 
+    axis.text.x.top, axis.text.x.bottom, axis.text.y, axis.text.y.left, 
+    axis.text.y.right, axis.ticks, axis.ticks.x, axis.ticks.x.top, 
+    axis.ticks.x.bottom, axis.ticks.y, axis.ticks.y.left, axis.ticks.y.right, 
+    axis.ticks.length, axis.ticks.length.x, axis.ticks.length.x.top, 
+    axis.ticks.length.x.bottom, axis.ticks.length.y, axis.ticks.length.y.left, 
+    axis.ticks.length.y.right, axis.line, axis.line.x, axis.line.x.top, 
+    axis.line.x.bottom, axis.line.y, axis.line.y.left, axis.line.y.right, 
+    legend.background, legend.margin, legend.spacing, legend.spacing.x, 
+    legend.spacing.y, legend.key, legend.key.size, legend.key.height, 
+    legend.key.width, legend.text, legend.text.align, legend.title, 
+    legend.title.align, legend.position, legend.direction, legend.justification, 
+    legend.box, legend.box.just, legend.box.margin, legend.box.background, 
+    legend.box.spacing, panel.background, panel.border, panel.spacing, 
+    panel.spacing.x, panel.spacing.y, panel.grid, panel.grid.major, 
+    panel.grid.minor, panel.grid.major.x, panel.grid.major.y, 
+    panel.grid.minor.x, panel.grid.minor.y, panel.ontop, plot.background, 
+    plot.title, plot.title.position, plot.subtitle, plot.caption, 
+    plot.caption.position, plot.tag, plot.tag.position, plot.margin, 
+    strip.background, strip.background.x, strip.background.y, 
+    strip.placement, strip.text, strip.text.x, strip.text.y, 
+    strip.switch.pad.grid, strip.switch.pad.wrap, ..., complete = FALSE, 
+    validate = TRUE) 
+NULL</code></pre>
+</div>
+<p>É possível modificar todos esses elementos do gráfico. Aqui, vamos usar apenas alguns, a nível de exemplo:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca_valor</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Data`</span>, y <span class='op'>=</span> <span class='va'>`Valor`</span>, color <span class='op'>=</span> <span class='va'>`Grupo`</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    title <span class='op'>=</span> <span class='st'>"Inflação mensal por grupos"</span>,
+    subtitle <span class='op'>=</span> <span class='st'>"Evolução no tempo"</span>,
+    caption <span class='op'>=</span> <span class='st'>"Fonte: Elaboração própria. Dados do SIDRA"</span>,
+    x <span class='op'>=</span> <span class='st'>"Ano"</span>,
+    y <span class='op'>=</span> <span class='st'>"Inflação"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_date.html'>scale_x_date</a></span><span class='op'>(</span>
+    date_breaks <span class='op'>=</span> <span class='st'>"1 year"</span>, 
+    date_labels <span class='op'>=</span> <span class='st'>"%Y"</span>
+    <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>
+    breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.03</span>, to <span class='op'>=</span> <span class='fl'>0.06</span>, by <span class='op'>=</span> <span class='fl'>0.01</span><span class='op'>)</span>,
+    limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>0.03</span>, <span class='fl'>0.06</span><span class='op'>)</span>,
+    labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/label_percent.html'>percent_format</a></span><span class='op'>(</span>accuracy <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+    <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+    
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>
+      plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>14</span>, hjust <span class='op'>=</span> <span class='fl'>0</span>, colour <span class='op'>=</span> <span class='st'>"black"</span>,<span class='op'>)</span>,
+      plot.subtitle <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"italic"</span>, size <span class='op'>=</span> <span class='fl'>11</span>, hjust <span class='op'>=</span> <span class='fl'>0</span>, colour <span class='op'>=</span> <span class='st'>"grey30"</span><span class='op'>)</span>,
+      plot.caption <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"italic"</span>, size <span class='op'>=</span> <span class='fl'>6</span>, margin <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>margin</a></span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>15</span><span class='op'>)</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
+      legend.position <span class='op'>=</span> <span class='st'>"top"</span>,
+      legend.text <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"plain"</span>, colour <span class='op'>=</span> <span class='st'>"grey30"</span>, size <span class='op'>=</span> <span class='fl'>9</span><span class='op'>)</span>,
+      legend.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>10</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>,
+      axis.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>10</span>, margin <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>margin</a></span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>10</span>, r <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>,
+      axis.text <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>8</span>, margin <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>margin</a></span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>5</span>, r <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,
+      panel.grid.major.y <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_line</a></span><span class='op'>(</span>colour <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>0.85</span><span class='op'>)</span>,  size <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
+      <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/guides.html'>guides</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/guide_legend.html'>guide_legend</a></span><span class='op'>(</span>nrow <span class='op'>=</span> <span class='fl'>3</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span>, title.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ggplot_files/figure-html5/unnamed-chunk-27-1.png" width="624" /></p>
+</div>
+<p>Porém, nem todos os aspectos do gráfico podem ser modificados pela função <code>theme()</code>. No exemplo acima, tivemos que chamar a função <code>guides()</code> para modificar a estrutura da legenda.</p>
+<p>É possível salvar as especificações de tema para que essas sejam utilizadas em todos os gráficos seguintes, por meio das funções <code>theme_set()</code> (que define um tema) e <code>theme_update()</code> que modifica os elemtentos desse tema:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme_get.html'>theme_set</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme_get.html'>theme_update</a></span><span class='op'>(</span>
+  plot.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>14</span>, hjust <span class='op'>=</span> <span class='fl'>0</span>, colour <span class='op'>=</span> <span class='st'>"black"</span>,<span class='op'>)</span>,
+  plot.subtitle <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"italic"</span>, size <span class='op'>=</span> <span class='fl'>11</span>, hjust <span class='op'>=</span> <span class='fl'>0</span>, colour <span class='op'>=</span> <span class='st'>"grey30"</span><span class='op'>)</span>,
+  plot.caption <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"italic"</span>, size <span class='op'>=</span> <span class='fl'>6</span>, margin <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>margin</a></span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>15</span><span class='op'>)</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>,
+  legend.position <span class='op'>=</span> <span class='st'>"top"</span>,
+  legend.text <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"plain"</span>, colour <span class='op'>=</span> <span class='st'>"grey30"</span>, size <span class='op'>=</span> <span class='fl'>9</span><span class='op'>)</span>,
+  legend.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>face <span class='op'>=</span> <span class='st'>"bold"</span>, size <span class='op'>=</span> <span class='fl'>10</span>, hjust <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>,
+  axis.title <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>0</span>, size <span class='op'>=</span> <span class='fl'>10</span>, margin <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>margin</a></span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>10</span>, r <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>,
+  axis.title.y <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>90</span><span class='op'>)</span>,
+  axis.text <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>8</span>, margin <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>margin</a></span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>5</span>, r <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,
+  panel.grid.major.y <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_line</a></span><span class='op'>(</span>colour <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>0.85</span><span class='op'>)</span>,  size <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca_valor</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Data`</span>, y <span class='op'>=</span> <span class='va'>`Valor`</span>, color <span class='op'>=</span> <span class='va'>`Grupo`</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>
+    title <span class='op'>=</span> <span class='st'>"Inflação mensal por grupos"</span>,
+    subtitle <span class='op'>=</span> <span class='st'>"Evolução no tempo"</span>,
+    caption <span class='op'>=</span> <span class='st'>"Fonte: Elaboração própria. Dados do SIDRA"</span>,
+    x <span class='op'>=</span> <span class='st'>"Ano"</span>,
+    y <span class='op'>=</span> <span class='st'>"Inflação"</span>
+  <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_date.html'>scale_x_date</a></span><span class='op'>(</span>
+    date_breaks <span class='op'>=</span> <span class='st'>"1 year"</span>, 
+    date_labels <span class='op'>=</span> <span class='st'>"%Y"</span>
+    <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>
+    breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.03</span>, to <span class='op'>=</span> <span class='fl'>0.06</span>, by <span class='op'>=</span> <span class='fl'>0.01</span><span class='op'>)</span>,
+    limits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>0.03</span>, <span class='fl'>0.06</span><span class='op'>)</span>,
+    labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/label_percent.html'>percent_format</a></span><span class='op'>(</span>accuracy <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+    <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/guides.html'>guides</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/guide_legend.html'>guide_legend</a></span><span class='op'>(</span>nrow <span class='op'>=</span> <span class='fl'>3</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span>, title.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ggplot_files/figure-html5/unnamed-chunk-30-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca_valor</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Data`</span>, y <span class='op'>=</span> <span class='va'>`Valor`</span>, color <span class='op'>=</span> <span class='va'>`Grupo`</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/guides.html'>guides</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/guide_legend.html'>guide_legend</a></span><span class='op'>(</span>nrow <span class='op'>=</span> <span class='fl'>3</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span>, title.position <span class='op'>=</span> <span class='st'>"top"</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+<p><img src="ggplot_files/figure-html5/unnamed-chunk-31-1.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

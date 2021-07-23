@@ -190,8 +190,19 @@ ipca_valor %>%
   geom_line()
 ```
 
-
 Cada função de geometria dessas possui parâmetros específicos para mudar alguns detalhes da sua forma. 
+
+É possível acrescentar mais de uma geometria. Vamos pegar o exemplo acima e acrescentar pontos (com a função `geom_point()`), uma reta horizontal (com a função `geom_hline()`) e uma reta vertical (com a função `geom_vline()`).
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_line() +
+  geom_point() +
+  geom_hline(yintercept = 0.06) +
+  geom_vline(xintercept = "2015-07-20" %>% ymd())
+```
 
 ## Rótulos
 
@@ -235,4 +246,164 @@ ipca_valor %>%
 ```
 
 ## Temas
+
+O pacote `ggplot` já vem junto com diversos temas, bastando chamar a função do tema para escolhê-lo (com o nome `theme_...()`). Vamos utilizar o exemplo dos rótulos, para mostrar bem as diferenças de cada tema.
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_line() +
+  labs(
+    title = "Inflação mensal por grupos",
+    subtitle = "Evolução no tempo",
+    caption = "Fonte: Elaboração própria. Dados do SIDRA",
+    x = "Ano",
+    y = "Inflação"
+  ) +
+  theme_bw()
+```
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_line() +
+  labs(
+    title = "Inflação mensal por grupos",
+    subtitle = "Evolução no tempo",
+    caption = "Fonte: Elaboração própria. Dados do SIDRA",
+    x = "Ano",
+    y = "Inflação"
+  ) +
+  theme_classic()
+```
+
+Existe um pacote chamado `ggthemes` que fornece temas adicionais:
+
+```{r, eval=FALSE}
+install.packages("ggthemes")
+```
+
+```{r}
+library(ggthemes)
+```
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_line() +
+  labs(
+    title = "Inflação mensal por grupos",
+    subtitle = "Evolução no tempo",
+    caption = "Fonte: Elaboração própria. Dados do SIDRA",
+    x = "Ano",
+    y = "Inflação"
+  ) +
+  theme_gdocs()
+```
+
+É possível também customizar muitos aspectos do gráfico com a função `theme()`, desde tamanho e fonte dos rótulos até posição da legenda. 
+
+Vamos listar todos os parâmetros que a função `theme()` recebe, através da função `args()`:
+
+```{r}
+theme %>%
+  args()
+```
+
+É possível modificar todos esses elementos do gráfico. Aqui, vamos usar apenas alguns, a nível de exemplo:
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_line() +
+  labs(
+    title = "Inflação mensal por grupos",
+    subtitle = "Evolução no tempo",
+    caption = "Fonte: Elaboração própria. Dados do SIDRA",
+    x = "Ano",
+    y = "Inflação"
+  ) +
+  scale_x_date(
+    date_breaks = "1 year", 
+    date_labels = "%Y"
+    ) +
+  scale_y_continuous(
+    breaks = seq(from = -0.03, to = 0.06, by = 0.01),
+    limits = c(-0.03, 0.06),
+    labels = scales::percent_format(accuracy = 1)
+    ) +
+  theme_hc() +
+    
+  theme(
+      plot.title = element_text(face = "bold", size = 14, hjust = 0, colour = "black",),
+      plot.subtitle = element_text(face = "italic", size = 11, hjust = 0, colour = "grey30"),
+      plot.caption = element_text(face = "italic", size = 6, margin = margin(t = 15), hjust = 1),
+      legend.position = "top",
+      legend.text = element_text(face = "plain", colour = "grey30", size = 9),
+      legend.title = element_text(face = "bold", size = 10, hjust = 0.5),
+      axis.title = element_text(size = 10, margin = margin(t = 10, r = 10)),
+      axis.text = element_text(size = 8, margin = margin(t = 5, r = 5)),
+      panel.grid.major.y = element_line(colour = gray(0.85),  size = 0.1)
+      ) +
+  guides(color = guide_legend(nrow = 3, byrow = TRUE, title.position = "top"))
+```
+
+Porém, nem todos os aspectos do gráfico podem ser modificados pela função `theme()`. No exemplo acima, tivemos que chamar a função `guides()` para modificar a estrutura da legenda.
+
+É possível salvar as especificações de tema para que essas sejam utilizadas em todos os gráficos seguintes, por meio das funções `theme_set()` (que define um tema) e `theme_update()` que modifica os elemtentos desse tema:
+
+```{r}
+theme_set(theme_hc())
+```
+
+```{r}
+theme_update(
+  plot.title = element_text(face = "bold", size = 14, hjust = 0, colour = "black",),
+  plot.subtitle = element_text(face = "italic", size = 11, hjust = 0, colour = "grey30"),
+  plot.caption = element_text(face = "italic", size = 6, margin = margin(t = 15), hjust = 1),
+  legend.position = "top",
+  legend.text = element_text(face = "plain", colour = "grey30", size = 9),
+  legend.title = element_text(face = "bold", size = 10, hjust = 0.5),
+  axis.title = element_text(angle = 0, size = 10, margin = margin(t = 10, r = 10)),
+  axis.title.y = element_text(angle = 90),
+  axis.text = element_text(size = 8, margin = margin(t = 5, r = 5)),
+  panel.grid.major.y = element_line(colour = gray(0.85),  size = 0.1)
+)
+```
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_line() +
+  labs(
+    title = "Inflação mensal por grupos",
+    subtitle = "Evolução no tempo",
+    caption = "Fonte: Elaboração própria. Dados do SIDRA",
+    x = "Ano",
+    y = "Inflação"
+  ) +
+  scale_x_date(
+    date_breaks = "1 year", 
+    date_labels = "%Y"
+    ) +
+  scale_y_continuous(
+    breaks = seq(from = -0.03, to = 0.06, by = 0.01),
+    limits = c(-0.03, 0.06),
+    labels = scales::percent_format(accuracy = 1)
+    ) +
+  guides(color = guide_legend(nrow = 3, byrow = TRUE, title.position = "top"))
+```
+
+```{r}
+ipca_valor %>%
+  ggplot() +
+  aes(x = `Data`, y = `Valor`, color = `Grupo`) +
+  geom_line() +
+  guides(color = guide_legend(nrow = 3, byrow = TRUE, title.position = "top"))
+```
 
