@@ -93,8 +93,8 @@ code span.wa { color: #da4453; } /* Warning */
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-07-12"/>
-  <meta property="article:created" itemprop="dateCreated" content="2021-07-12"/>
+  <meta property="article:published" itemprop="datePublished" content="2021-07-26"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-07-26"/>
   <meta name="article:author" content="Rafael Peixoto"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -111,7 +111,7 @@ code span.wa { color: #da4453; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","site"]}},"value":[{"type":"character","attributes":{},"value":["ggplot"]},{"type":"NULL"},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Rafael Peixoto"]},{"type":"character","attributes":{},"value":["Universidade Estadual de Campinas"]}]}]},{"type":"character","attributes":{},"value":["07-12-2021"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","site"]}},"value":[{"type":"character","attributes":{},"value":["ggplot"]},{"type":"NULL"},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Rafael Peixoto"]},{"type":"character","attributes":{},"value":["Universidade Estadual de Campinas"]}]}]},{"type":"character","attributes":{},"value":["07-26-2021"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2405,7 +2405,7 @@ code span.wa { color: #da4453; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"ggplot","authors":[{"author":"Rafael Peixoto","authorURL":"#","affiliation":"Universidade Estadual de Campinas","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-07-12T00:00:00.000-03:00","citationText":"Peixoto, 2021"}
+{"title":"ggplot","authors":[{"author":"Rafael Peixoto","authorURL":"#","affiliation":"Universidade Estadual de Campinas","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-07-26T00:00:00.000-03:00","citationText":"Peixoto, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2500,7 +2500,7 @@ btn.on('click', (e) => {
 <div class="d-byline">
   Rafael Peixoto  (Universidade Estadual de Campinas)
   
-<br/>07-12-2021
+<br/>07-26-2021
 </div>
 
 <div class="d-article">
@@ -2548,7 +2548,8 @@ btn.on('click', (e) => {
 </code></pre>
 </div>
 </div>
-<p>O <code>ggplot</code> propõe uma forma de criar gráficos baseada camadas. Com isso, é possível adicionar, alterar e/ou remover camadas específicas do gráfico, o que permite um alto nível de customização. Em geral, um gráfico do <code>ggplot</code> apresenta as seguintes camadas:</p>
+<p>Os pacotes <code>dplyr</code>, <code>sidrar</code>, <code>lubridate</code> e <code>rmarkdown</code> foram introduzidas na aula sobre o <code>dplyr</code>.</p>
+<p>O <code>ggplot</code> propõe uma forma de criar gráficos baseada em camadas. Com isso, é possível adicionar, alterar e/ou remover camadas específicas do gráfico, o que permite um alto nível de customização. Em geral, um gráfico do <code>ggplot</code> apresenta as seguintes camadas:</p>
 <ul>
 <li><strong>Dados</strong></li>
 <li><strong>Mapeamento</strong></li>
@@ -2558,13 +2559,14 @@ btn.on('click', (e) => {
 <li>Temas</li>
 </ul>
 <p>Porém, apenas as três primeiras são essenciais e necessárias de ser incluídas em qualquer gráfico.</p>
-<p>Para facilitar, vamos utilizar os dado da seção sobre o pacote <code>dplyr</code>:</p>
+<p>Para facilitar a exposição, vamos utilizar os mesmos dados que utilizamos na aula sobre o pacote <code>dplyr</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sidrar/man/get_sidra.html'>get_sidra</a></span><span class='op'>(</span>api <span class='op'>=</span> <span class='st'>'/t/1419/n1/all/v/63,66/p/all/c315/7170,7445,7486,7558,7625,7660,7712,7766,7786/d/v63%202,v66%204'</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
+<p>Porém, vamos criar uma tabela com apenas as variáveis e ocorrências que desejamos analisar. Além disso, transformar a variável “Data” em um objeto da classe <code>date</code>, e dividir a variável “Valor” por 100 (para ficar em porcentagem).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca_valor</span> <span class='op'>&lt;-</span> <span class='va'>ipca</span> <span class='op'>%&gt;%</span>
@@ -2583,7 +2585,7 @@ btn.on('click', (e) => {
   </script>
 </div>
 </div>
-<p>Para criar gráficos com o pacote <code>ggplot</code> precisamos fornecer pelo menos camadas referentes aos dados, mapeamento e geometria. Os dados (no caso, <code>ipca_valor</code>) entram como argumento da função <code>ggplot()</code>; o mapeamento é fornecido nos parâmetros da função <code>aes()</code>; e a geometria é indicada pela função correspondente à geometria desejada, que no exemplo a seguir será uma linha, <code>geom_line()</code>.</p>
+<p>Para criar gráficos com o pacote <code>ggplot</code>, precisamos fornecer pelo menos as camadas referentes aos dados, mapeamento e geometria. Os dados (no caso, <code>ipca_valor</code>) entram como argumento da função <code>ggplot()</code>; o mapeamento é fornecido nos parâmetros da função <code>aes()</code>; e a geometria é indicada pela função correspondente à geometria desejada, que no exemplo a seguir será de pontos, <code>geom_point()</code>.</p>
 <p>Cada camada é adicionada por meio do sinal de somatório, <code>+</code>, que funciona de forma semelhante ao pipe (<code>%&gt;%</code>).</p>
 <p>Vamos adicionar essas camadas uma por uma e ver que o gráfico só surge quando incluímos as três camadas essenciais.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2747,6 +2749,7 @@ btn.on('click', (e) => {
 </div>
 <p><img src="ggplot_files/figure-html5/unnamed-chunk-18-1.png" width="624" /></p>
 </div>
+<p>Obs.: Como a variável “Data” é da classe <code>date</code>, precisamos fornecer um valor também na classe <code>date</code> para o parâmetro <code>xintercept</code>. Por isso o uso da função <code>ymd()</code> (a mesma função que utilizamos para transformar a classe da variável “Data” lá no início).</p>
 <h2 id="rótulos">Rótulos</h2>
 <p>Os rótulos de um gráfico abrangem desde o título e o subtítulo até a legenda e os nomes dos eixos. No <code>ggplot</code>, esses rótulos são indicados na função <code>labs()</code>. Alguns desses rótulos já aparecem de forma automática nos gráficos bases, porém é possível alterá-los.</p>
 <p>Vamos pegar o gráfico do exemplo acima e adicionar/modificar alguns rótulos:</p>
@@ -2770,7 +2773,7 @@ btn.on('click', (e) => {
 <p>Esse rótulos podem ser customizados depois, alterando-se as propriedades do tema do gráfico, como veremos mais a frente.</p>
 <h2 id="escalas">Escalas</h2>
 <p>Frequentemente desejamos mudar as escalas dos eixos tanto <code>x</code> quanto <code>y</code>, para facilitar o entendimento dos dados. Caso queiramos dar um <em>zoom</em> no gráfico, é preferível manipular os dados com o pacote <code>dplyr</code>. As escalas aqui são mais úteis para manipular os eixos.</p>
-<p>Existem diversas funções para manipular as escalas, cada um adequada para um tipo específico de de gráfico Usualmente essas função são da forma <code>scale_x_...</code> e <code>scale_y_...</code>. Nessas funções, nós passamos parâmetros que modificam a escala.</p>
+<p>Existem diversas funções para manipular as escalas, cada um adequada para um tipo específico de gráfico. Usualmente, essas função são da forma <code>scale_x_...</code> e <code>scale_y_...</code>. Nessas funções, passamos parâmetros que modificam a escala.</p>
 <p>Vamos pegar o mesmo gráfico base do exemplo anterior e modificar as escalas dos eixos. Vamos modificar a escala das datas com a função <code>scale_x_date()</code> e a escala dos valores com a função <code>scale_y_continuous()</code></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2778,10 +2781,14 @@ btn.on('click', (e) => {
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`Data`</span>, y <span class='op'>=</span> <span class='va'>`Valor`</span>, color <span class='op'>=</span> <span class='va'>`Grupo`</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_date.html'>scale_x_date</a></span><span class='op'>(</span>date_breaks <span class='op'>=</span> <span class='st'>"1 year"</span>, 
-               date_labels <span class='op'>=</span> <span class='st'>"%Y"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.03</span>, to <span class='op'>=</span> <span class='fl'>0.06</span>, by <span class='op'>=</span> <span class='fl'>0.01</span><span class='op'>)</span>,
-                     labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/label_percent.html'>percent_format</a></span><span class='op'>(</span>accuracy <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_date.html'>scale_x_date</a></span><span class='op'>(</span>
+    date_breaks <span class='op'>=</span> <span class='st'>"1 year"</span>, 
+    date_labels <span class='op'>=</span> <span class='st'>"%Y"</span>
+    <span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>
+    breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.03</span>, to <span class='op'>=</span> <span class='fl'>0.06</span>, by <span class='op'>=</span> <span class='fl'>0.01</span><span class='op'>)</span>,
+    labels <span class='op'>=</span> <span class='fu'>scales</span><span class='fu'>::</span><span class='fu'><a href='https://scales.r-lib.org/reference/label_percent.html'>percent_format</a></span><span class='op'>(</span>accuracy <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+    <span class='op'>)</span>
 </code></pre>
 </div>
 <p><img src="ggplot_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
@@ -2856,7 +2863,7 @@ btn.on('click', (e) => {
 <p><img src="ggplot_files/figure-html5/unnamed-chunk-25-1.png" width="624" /></p>
 </div>
 <p>É possível também customizar muitos aspectos do gráfico com a função <code>theme()</code>, desde tamanho e fonte dos rótulos até posição da legenda.</p>
-<p>Vamos listar todos os parâmetros que a função <code>theme()</code> recebe, através da função <code>args()</code>:</p>
+<p>Vamos listar todos os parâmetros que a função <code>theme()</code> recebe (através da função <code>args()</code>), para mostrar tudo o que é possível modificar com essa função:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>theme</span> <span class='op'>%&gt;%</span>
@@ -2890,7 +2897,8 @@ btn.on('click', (e) => {
     validate = TRUE) 
 NULL</code></pre>
 </div>
-<p>É possível modificar todos esses elementos do gráfico. Aqui, vamos usar apenas alguns, a nível de exemplo:</p>
+<p>É possível modificar todos esses elementos do gráfico. Usualmente, esses parâmetros chamam funções do tipo <code>element_...()</code> para modificar o elemento correspondente. Por exemplo, <code>element_text()</code> modifica aspectos de texto, <code>element_line()</code> modifica aspectos de linha. Para maiores informações, consultar a documentação referente (que pode ser acessada dentro do próprio <code>R</code> com a função <code>help(margin)</code>)</p>
+<p>Aqui, vamos usar apenas alguns parâmetros, a nível de exemplo:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca_valor</span> <span class='op'>%&gt;%</span>
@@ -2932,13 +2940,15 @@ NULL</code></pre>
 <p><img src="ggplot_files/figure-html5/unnamed-chunk-27-1.png" width="624" /></p>
 </div>
 <p>Porém, nem todos os aspectos do gráfico podem ser modificados pela função <code>theme()</code>. No exemplo acima, tivemos que chamar a função <code>guides()</code> para modificar a estrutura da legenda.</p>
-<p>É possível salvar as especificações de tema para que essas sejam utilizadas em todos os gráficos seguintes, por meio das funções <code>theme_set()</code> (que define um tema) e <code>theme_update()</code> que modifica os elemtentos desse tema:</p>
+<p>É possível salvar as especificações de tema para que essas sejam utilizadas em todos os gráficos seguintes, por meio das funções <code>theme_set()</code> (que define um tema) e <code>theme_update()</code> que modifica os elementos desse tema.</p>
+<p>Por exemplo, vamos definir o tema <code>theme_hc()</code> como o padrão:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme_get.html'>theme_set</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/ggthemes/man/theme_hc.html'>theme_hc</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
+<p>Agora vamos definir alguns aspectos específicos do tema:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme_get.html'>theme_update</a></span><span class='op'>(</span>
@@ -2956,6 +2966,7 @@ NULL</code></pre>
 </code></pre>
 </div>
 </div>
+<p>Feito isso, não precisamos mais chamar as funções <code>theme_hc()</code> e <code>theme()</code> em todos os gráficos que vierem a seguir.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca_valor</span> <span class='op'>%&gt;%</span>

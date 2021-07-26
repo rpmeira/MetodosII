@@ -4,7 +4,7 @@ description:
 author:
   - name: Rafael Peixoto
     affiliation: Universidade Estadual de Campinas
-date: 07-12-2021
+date: 07-26-2021
 site: distill::distill_website
 ---
 
@@ -30,7 +30,9 @@ library(lubridate)
 library(rmarkdown)
 ```
 
-O `ggplot` propõe uma forma de criar gráficos baseada camadas. Com isso, é possível adicionar, alterar e/ou remover camadas específicas do gráfico, o que permite um alto nível de customização. Em geral, um gráfico do `ggplot` apresenta as seguintes camadas:
+Os pacotes `dplyr`, `sidrar`, `lubridate` e `rmarkdown` foram introduzidas na aula sobre o `dplyr`.
+
+O `ggplot` propõe uma forma de criar gráficos baseada em camadas. Com isso, é possível adicionar, alterar e/ou remover camadas específicas do gráfico, o que permite um alto nível de customização. Em geral, um gráfico do `ggplot` apresenta as seguintes camadas:
 
 - **Dados**
 - **Mapeamento**
@@ -41,11 +43,13 @@ O `ggplot` propõe uma forma de criar gráficos baseada camadas. Com isso, é po
 
 Porém, apenas as três primeiras são essenciais e necessárias de ser incluídas em qualquer gráfico.
 
-Para facilitar, vamos utilizar os dado da seção sobre o pacote `dplyr`:
+Para facilitar a exposição, vamos utilizar os mesmos dados que utilizamos na aula sobre o pacote `dplyr`:
 
 ```{r}
 ipca <- get_sidra(api = '/t/1419/n1/all/v/63,66/p/all/c315/7170,7445,7486,7558,7625,7660,7712,7766,7786/d/v63%202,v66%204')
 ```
+
+Porém, vamos criar uma tabela com apenas as variáveis e ocorrências que desejamos analisar. Além disso, transformar a variável "Data" em um objeto da classe `date`, e dividir a variável "Valor" por 100 (para ficar em porcentagem).
 
 ```{r, layout="l-body"}
 ipca_valor <- ipca %>%
@@ -58,7 +62,7 @@ ipca_valor %>%
   paged_table()
 ```
 
-Para criar gráficos com o pacote `ggplot` precisamos fornecer pelo menos camadas referentes aos dados, mapeamento e geometria. Os dados (no caso, `ipca_valor`) entram como argumento da função `ggplot()`; o mapeamento é fornecido nos parâmetros da função `aes()`; e a geometria é indicada pela função correspondente à geometria desejada, que no exemplo a seguir será uma linha, `geom_line()`. 
+Para criar gráficos com o pacote `ggplot`, precisamos fornecer pelo menos as camadas referentes aos dados, mapeamento e geometria. Os dados (no caso, `ipca_valor`) entram como argumento da função `ggplot()`; o mapeamento é fornecido nos parâmetros da função `aes()`; e a geometria é indicada pela função correspondente à geometria desejada, que no exemplo a seguir será de pontos, `geom_point()`. 
 
 Cada camada é adicionada por meio do sinal de somatório, `+`, que funciona de forma semelhante ao pipe (`%>%`).
 
@@ -204,6 +208,8 @@ ipca_valor %>%
   geom_vline(xintercept = "2015-07-20" %>% ymd())
 ```
 
+Obs.: Como a variável "Data" é da classe `date`, precisamos fornecer um valor também na classe `date` para o parâmetro `xintercept`. Por isso o uso da função `ymd()` (a mesma função que utilizamos para transformar a classe da variável "Data" lá no início).
+
 ## Rótulos
 
 Os rótulos de um gráfico abrangem desde o título e o subtítulo até a legenda e os nomes dos eixos. No `ggplot`, esses rótulos são indicados na função `labs()`. Alguns desses rótulos já aparecem de forma automática nos gráficos bases, porém é possível alterá-los.
@@ -230,7 +236,7 @@ Esse rótulos podem ser customizados depois, alterando-se as propriedades do tem
 
 Frequentemente desejamos mudar as escalas dos eixos tanto `x` quanto `y`, para facilitar o entendimento dos dados. Caso queiramos dar um *zoom* no gráfico, é preferível manipular os dados com o pacote `dplyr`. As escalas aqui são mais úteis para manipular os eixos.
 
-Existem diversas funções para manipular as escalas, cada um adequada para um tipo específico de de gráfico Usualmente essas função são da forma `scale_x_...` e `scale_y_...`. Nessas funções, nós passamos parâmetros que modificam a escala.
+Existem diversas funções para manipular as escalas, cada um adequada para um tipo específico de gráfico. Usualmente, essas função são da forma `scale_x_...` e `scale_y_...`. Nessas funções, passamos parâmetros que modificam a escala.
 
 Vamos pegar o mesmo gráfico base do exemplo anterior e modificar as escalas dos eixos. Vamos modificar a escala das datas com a função `scale_x_date()` e a escala dos valores com a função `scale_y_continuous()`
 
@@ -239,10 +245,14 @@ ipca_valor %>%
   ggplot() +
   aes(x = `Data`, y = `Valor`, color = `Grupo`) +
   geom_line() +
-  scale_x_date(date_breaks = "1 year", 
-               date_labels = "%Y") +
-  scale_y_continuous(breaks = seq(from = -0.03, to = 0.06, by = 0.01),
-                     labels = scales::percent_format(accuracy = 1))
+  scale_x_date(
+    date_breaks = "1 year", 
+    date_labels = "%Y"
+    ) +
+  scale_y_continuous(
+    breaks = seq(from = -0.03, to = 0.06, by = 0.01),
+    labels = scales::percent_format(accuracy = 1)
+    )
 ```
 
 ## Temas
@@ -306,14 +316,16 @@ ipca_valor %>%
 
 É possível também customizar muitos aspectos do gráfico com a função `theme()`, desde tamanho e fonte dos rótulos até posição da legenda. 
 
-Vamos listar todos os parâmetros que a função `theme()` recebe, através da função `args()`:
+Vamos listar todos os parâmetros que a função `theme()` recebe (através da função `args()`), para mostrar tudo o que é possível modificar com essa função:
 
 ```{r}
 theme %>%
   args()
 ```
 
-É possível modificar todos esses elementos do gráfico. Aqui, vamos usar apenas alguns, a nível de exemplo:
+É possível modificar todos esses elementos do gráfico. Usualmente, esses parâmetros chamam funções do tipo `element_...()` para modificar o elemento correspondente. Por exemplo, `element_text()` modifica aspectos de texto, `element_line()` modifica aspectos de linha. Para maiores informações, consultar a documentação referente (que pode ser acessada dentro do próprio `R` com a função `help(margin)`)
+
+Aqui, vamos usar apenas alguns parâmetros, a nível de exemplo:
 
 ```{r}
 ipca_valor %>%
@@ -354,11 +366,15 @@ ipca_valor %>%
 
 Porém, nem todos os aspectos do gráfico podem ser modificados pela função `theme()`. No exemplo acima, tivemos que chamar a função `guides()` para modificar a estrutura da legenda.
 
-É possível salvar as especificações de tema para que essas sejam utilizadas em todos os gráficos seguintes, por meio das funções `theme_set()` (que define um tema) e `theme_update()` que modifica os elemtentos desse tema:
+É possível salvar as especificações de tema para que essas sejam utilizadas em todos os gráficos seguintes, por meio das funções `theme_set()` (que define um tema) e `theme_update()` que modifica os elementos desse tema.
+
+Por exemplo, vamos definir o tema `theme_hc()` como o padrão:
 
 ```{r}
 theme_set(theme_hc())
 ```
+
+Agora vamos definir alguns aspectos específicos do tema:
 
 ```{r}
 theme_update(
@@ -374,6 +390,8 @@ theme_update(
   panel.grid.major.y = element_line(colour = gray(0.85),  size = 0.1)
 )
 ```
+
+Feito isso, não precisamos mais chamar as funções `theme_hc()` e `theme()` em todos os gráficos que vierem a seguir.
 
 ```{r}
 ipca_valor %>%
