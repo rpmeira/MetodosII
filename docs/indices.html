@@ -89,30 +89,30 @@ code span.wa { color: #da4453; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Metodos II: tidyr</title>
+  <title>Metodos II: Índices</title>
 
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-07-12"/>
-  <meta property="article:created" itemprop="dateCreated" content="2021-07-12"/>
+  <meta property="article:published" itemprop="datePublished" content="2021-10-21"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-10-21"/>
   <meta name="article:author" content="Rafael Peixoto"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Metodos II: tidyr"/>
+  <meta property="og:title" content="Metodos II: Índices"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="Metodos II"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Metodos II: tidyr"/>
+  <meta property="twitter:title" content="Metodos II: Índices"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","site"]}},"value":[{"type":"character","attributes":{},"value":["tidyr"]},{"type":"NULL"},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Rafael Peixoto"]},{"type":"character","attributes":{},"value":["Universidade Estadual de Campinas"]}]}]},{"type":"character","attributes":{},"value":["07-12-2021"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","site"]}},"value":[{"type":"character","attributes":{},"value":["Índices"]},{"type":"NULL"},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Rafael Peixoto"]},{"type":"character","attributes":{},"value":["Universidade Estadual de Campinas"]}]}]},{"type":"character","attributes":{},"value":["10-21-2021"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2404,7 +2404,7 @@ code span.wa { color: #da4453; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"tidyr","authors":[{"author":"Rafael Peixoto","authorURL":"#","affiliation":"Universidade Estadual de Campinas","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-07-12T00:00:00.000-03:00","citationText":"Peixoto, 2021"}
+{"title":"Índices","authors":[{"author":"Rafael Peixoto","authorURL":"#","affiliation":"Universidade Estadual de Campinas","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-10-21T00:00:00.000-03:00","citationText":"Peixoto, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2491,7 +2491,7 @@ btn.on('click', (e) => {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>tidyr</h1>
+<h1>Índices</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2500,7 +2500,7 @@ btn.on('click', (e) => {
 <div class="d-byline">
   Rafael Peixoto  (Universidade Estadual de Campinas)
   
-<br/>07-12-2021
+<br/>10-21-2021
 </div>
 
 <div class="d-article">
@@ -2513,34 +2513,6 @@ btn.on('click', (e) => {
 </nav>
 </div>
 <h2 id="introdução">Introdução</h2>
-<p>Para visualizar a evolução da inflação de cada grupo de forma separada, é preciso transformar esses em variáveis (colunas), ao invés de instâncias (linhas). Para isso, podemos utilizar a função <code>pivot_wider()</code>, do pacote <code>tidyr</code>. Adicionalmente, vamos transformar a coluna “Mês” em uma coluna de datas (ao invés de caracteres).</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># library(tidyr)</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-page">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># ipca_grupos %&gt;%</span>
-<span class='co'>#   pivot_wider(names_from = `Grupo`, values_from = `Valor Numérico`) %&gt;%</span>
-<span class='co'>#   mutate("Data" = seq(from = as.Date("2012/01/01"), by = "month", length.out = nrow(.))) %&gt;%</span>
-<span class='co'>#   paged_table()</span>
-</code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># ipca_grupos %&gt;%</span>
-<span class='co'>#   pivot_wider(names_from = `Grupo`, values_from = `Valor Numérico`) %&gt;%</span>
-<span class='co'>#   mutate("Data" = seq(from = as.Date("2012/01/01"), by = "month", length.out = nrow(.))) %&gt;%</span>
-<span class='co'>#   pivot_longer(cols = -1, names_to = "Grupo", values_to = "Valor Numérico") %&gt;%</span>
-<span class='co'>#   ggplot() +</span>
-<span class='co'>#   aes(x = `Data`, y = `Valor Numérico`, color = `Grupo`) +</span>
-<span class='co'>#   geom_line()</span>
-</code></pre>
-</div>
-</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

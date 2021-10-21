@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -2383,7 +2384,7 @@ code span.wa { color: #da4453; } /* Warning */
     color: var(--hover-color, white);
   }</style>
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
   <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
   <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
@@ -2419,6 +2420,7 @@ code span.wa { color: #da4453; } /* Warning */
 <a href="index.html">Inicio</a>
 <a href="dplyr.html">dplyr</a>
 <a href="ggplot.html">ggplot</a>
+<a href="indices.html">Indices</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -2579,7 +2581,7 @@ btn.on('click', (e) => {
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://github.com/rpradosiqueira/sidrar'>sidrar</a></span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rpradosiqueira/sidrar/'>sidrar</a></span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -2913,7 +2915,7 @@ btn.on('click', (e) => {
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Data"</span> <span class='op'>=</span> <span class='va'>`Mês`</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>mdy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Data"</span> <span class='op'>=</span> <span class='va'>`Mês`</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd.html'>mdy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='st'>"Mês"</span>, <span class='st'>"Data"</span>, <span class='st'>"Grupo"</span> <span class='op'>=</span> <span class='fl'>13</span>, <span class='st'>"Valor"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
@@ -3247,7 +3249,7 @@ Show code
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>`Variável`</span> <span class='op'>==</span> <span class='st'>"IPCA - Variação mensal"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>:</span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>-</span><span class='fl'>9</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Mês"</span> <span class='op'>=</span> <span class='va'>`Mês`</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>mdy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Mês"</span> <span class='op'>=</span> <span class='va'>`Mês`</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd.html'>mdy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='st'>"Mês"</span>, <span class='st'>"Grupo"</span> <span class='op'>=</span> <span class='fl'>13</span>, <span class='st'>"Valor"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
@@ -3272,7 +3274,7 @@ Show code
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ipca</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>`Variável`</span> <span class='op'>==</span> <span class='st'>"IPCA - Variação mensal"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='st'>"Data"</span> <span class='op'>=</span> <span class='va'>`Mês`</span>, <span class='st'>"Grupo"</span> <span class='op'>=</span> <span class='fl'>13</span>, <span class='st'>"Valor"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Data"</span> <span class='op'>=</span> <span class='va'>`Data`</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='http://lubridate.tidyverse.org/reference/ymd.html'>mdy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Data"</span> <span class='op'>=</span> <span class='va'>`Data`</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd.html'>mdy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Valor"</span> <span class='op'>=</span> <span class='va'>`Valor`</span> <span class='op'>/</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>

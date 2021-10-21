@@ -11,6 +11,8 @@ navbar:
       href: dplyr.html
     - text: "ggplot"
       href: ggplot.html
+    - text: "Indices"
+      href: indices.html
 theme: theme.css
 output: 
   distill::distill_article:

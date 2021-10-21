@@ -1,0 +1,15 @@
+---
+title: "Índices"
+description:
+author:
+  - name: Rafael Peixoto
+    affiliation: Universidade Estadual de Campinas
+date: 10-21-2021
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+```
+
+## Introdução
