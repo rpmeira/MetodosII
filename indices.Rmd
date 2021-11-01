@@ -1,5 +1,5 @@
 ---
-title: "Índices"
+title: "Índices Econômicos"
 description:
 author:
   - name: Rafael Peixoto
@@ -8,8 +8,351 @@ date: 10-21-2021
 site: distill::distill_website
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = T)
+<!-- Serve para qualquer elemento (div, span, h1, p) -->
+```{css, echo=FALSE}
+.blue { 
+  background-color:#e6f0ff; 
+  padding: 20px;
+}
+
+.border {
+  border-style: double;
+  border-color: red;
+  border-radius: 12px;
+  padding: 5px;
+}
 ```
 
-## Introdução
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+library(tidyverse)
+library(rmarkdown)
+```
+
+# Introdução
+
+Números índices são medidas estatísticas usadas para comparar grupos de variáveis relacionadas. 
+
+<div class = "blue">
+
+Os índices econômicos, em particular, destinam-se a medir variações ocorridas ao longo do tempo de variáveis como:
+
+- Preço
+- Quantidade
+- Valor (preço x quantidade)
+
+</div><br>
+
+Exemplos:
+
+- Preço da carne hoje em relação ao seu preço no ano passado.
+- Consumo de energia anual ao longo da última década.
+- Crescimento do PIB em um determinado período.
+
+<br>
+
+Um número índice pode ser simples ou composto:
+
+- Simples: só um objeto é analisado
+- Composto: um grupo de objetos é analisado
+
+<br>
+
+# Índices relativos
+
+Vamos começar analisando a variação (de preço, quantidade ou valor) de apenas um objeto.
+
+De forma geral, para calcularmos essa variação, basta dividirmos o valor atual (ou de interesse) pelo valor do período base:
+
+<div class = "blue">
+
+$$
+x_{0,t} = \frac{x_t}{x_0}
+$$
+Ou, se quisermos em termos percentuais:
+
+$$
+x_{0,t} = \frac{x_t}{x_0} \times 100
+$$
+
+onde,
+
+- $x \quad$ pode ser uma variável representando preço, quantidade ou valor
+- $0 \quad$ é o período base
+- $t \quad$ é o período atual ou te interesse
+
+</div>
+
+<br>
+
+Vamos ver exemplos para os casos de preço, quantidade e valor
+
+### Índice relativo de preço
+
+<div class = "blue">
+
+Utilizando a forma anterior para o caso de preços:
+
+$$
+P_{0,t} = \frac{P_t}{P_0}
+$$
+
+</div><br>
+
+Exemplo:
+
+Um produto custava R\$200 em 2015 e passou a custar R\$350 em 2020. Para calcularmos o número índice:
+
+$$
+P_{0,t} = \frac{P_t}{P_0} = \frac{P_{2020}}{P_{2015}} = \frac{350}{200} = 1.75
+$$
+
+Assim, o preço em 2020 é 1,75 vezes o preço em 2015. Ou, em termos percentuais:
+
+$$
+1.75 \times 100 = 175\%
+$$
+
+O que indica que o preço em 2020 representa 175% do preço em 2015. Se quisermos indicar a variação do preço:
+
+$$
+(1.75 - 1) \times 100 = 75\%
+$$
+
+Ou seja, o preço subiu 75%. 
+
+
+### Índice relativo de quantidade
+
+<div class = "blue">
+
+Utilizando a forma anterior, agora para o caso de quantidades:
+
+$$
+Q_{0,t} = \frac{Q_t}{Q_0}
+$$
+
+</div><br>
+
+Exemplo:
+
+As exportações de avião em 2012 foram de 50 unidades e em 2018 caíram para 40 unidades. Para calcularmos o número índice:
+
+$$
+Q_{0,t} = \frac{Q_t}{Q_0} = \frac{Q_{2018}}{Q_{2012}} = \frac{40}{50} = 0.8
+$$
+
+Assim, a quantidade em 2018 é 0,8 vezes a quantidade em 2012. Ou, em termos percentuais:
+
+$$
+0.8 \times 100 = 80\%
+$$
+
+O que indica que a quantidade em 2018 representa 80% da quantidade em 2012. Se quisermos indicar a variação da quantidade:
+
+$$
+(0.8 - 1) \times 100 = 20\%
+$$
+
+Ou seja, a quantidade caiu 20%.
+
+
+### Índice relativo de valor
+
+<div class = "blue">
+
+Utilizando a forma anterior, agora para o caso de valor:
+
+$$
+V_{0,t} = \frac{Q_t \times P_t}{Q_0 \times Q_0}
+$$
+
+</div><br>
+
+Exemplo:
+
+Uma empresa importou 20 unidades de um equipamento em 2010 e 12 em 2013. O preço desse equipamento era de R\$3000 em 2010 e de R\$4000 em 2013. Para calcularmos o número índice:
+
+$$
+V_{0,t} = \frac{Q_t \times P_t}{Q_0 \times Q_0} = \frac{12 \times 4000}{20 \times 3000} = \frac{48000}{60000} = 0.8
+$$
+
+Assim, as importações da empresa em 2013 em termos de valor foi de 0,8 vezes o valor em 2010. Ou, em termos percentuais:
+
+$$
+0.8 \times 100 = 80\%
+$$
+
+O que indica que o valor das importações em 2013 representa 80% do valor em 2010. Se quisermos indicar a variação do valor:
+
+$$
+(0.8 - 1) \times 100 = 20\%
+$$
+
+Ou seja, o valor das importações caiu 20%.
+
+<br>
+
+# Mudança de base
+
+Nos exemplos mostrados acima utilizamos apenas dois períodos, um corrente (ou de interesse) e outro base. Porém, o mais frequente é termos diversos períodos nos quais queremos analisar uma variável. Adicionalmente, podemos querer mudar o período base. Vejamos como fazer isso.
+
+<div class="blue">
+
+Existem dois métodos para a escolha da base:
+
+- Base fixa
+- Base móvel
+
+</div><br>
+
+Vamos utilizar um exemplo para demonstrar os dois métodos. Vamos supor que temos os seguintes dados sobre a venda de automóveis leves no Brasil:
+
+```{r}
+automoveis <- tibble(
+  "Ano" = 2011:2017,
+  "Quantidade" = c(3419, 3628, 3571, 3326, 2463, 1987, 1573)
+)
+
+automoveis %>%
+  paged_table()
+```
+
+Vamos adicionar a essa tabela um índice tendo como base o ano de 2011. 
+Para tanto, precisamos utilizar a fórmula $Q_{0,t} = \frac{Q_t}{Q_0}$, sendo o período $0$ (base) o ano de 2011 e o período $t$ cada um dos anos que queremos comparar com o período base.
+Assim, por exemplo, 
+
+$$
+Q_{2011,2011} = \frac{3491}{3491} \times 100 = 100.00 \quad ; \qquad
+Q_{2011,2012} = \frac{3628}{3491} \times 100 = 106.11
+$$
+
+No R, podemos assim adicionar esse índice à tabela:
+
+```{r}
+for (i in 1:nrow(automoveis)) {
+  automoveis$`Índice 2011`[i] <- ((automoveis$Quantidade[i] / automoveis$Quantidade[1]) * 100) %>%
+    round(digits = 2)
+}
+```
+
+Utilizamos a estrutura de repetição `for`, que executa o comando indicado para todos os valores especificados, `i`, que no caso se refere a todas as linhas da tabela `automoveis`. 
+O comando executado é a divisão da linha `i` pela linha `1` (que é o ano base que escolhemos), seguida da sua multiplicação por 100.
+Esse comando é atribuído a uma coluna nova da tabela `automoveis`, que estamos criando agora com o nome de `Índice 2011`.
+
+```{r}
+automoveis %>%
+  paged_table()
+```
+
+Como já poderia ser esperado, existem pacotes que automatizam esse processo. Um deles é o `IndexNumber`, que pode assim ser instalado e carregado:
+
+```{r, eval=FALSE}
+install.packages("IndexNumber")
+```
+
+```{r}
+library(IndexNumber)
+```
+
+Vamos utilizar a função `index.number.serie` desse pacote para calcular o índice que quantidade visto acima.
+
+```{r}
+index.number.serie(x = automoveis$Quantidade, name = "Quantidade") %>%
+  paged_table()
+```
+
+Podemos pegar apenas a coluna que desejamos, `Index number`, e acrescentar a nossa tabela já existente:
+
+```{r}
+indice <- index.number.serie(x = automoveis$Quantidade, name = "Quantidade")
+
+automoveis_I <- automoveis %>%
+  mutate("Índice" = indice$`Index number` %>% round(digits = 2))
+
+automoveis_I %>%
+  paged_table()
+```
+
+### Base fixa
+
+Criada nossa tabela com o índice, vamos agora mudar o período base do índice.
+Vamos escolher o ano de 2016 para ser a nova base.
+
+Uma vez que já temos um índice criado, para mudarmos a base basta dividir o valor desse índice de cada período pelo valor do índice no período da nova base. Assim, sendo a nova base o período de 2016:
+
+$$
+Q_{2016, 2011} = \frac{100}{58.12} \times 100 = 172.05
+$$
+
+No R, podemos aplicar essa operação com uma estrutura de repetição, como fizemos para criar o primeiro índice:
+
+```{r}
+for (i in 1:nrow(automoveis)) {
+  automoveis$`Índice 2016`[i] <- (
+      (automoveis$`Índice 2011`[i] / automoveis$`Índice 2011`[6]) * 100
+    ) %>%
+    round(digits = 2)
+}
+
+automoveis %>%
+  paged_table()
+```
+
+Para não ter que contar em qual linha está o ano que queremos utilizar como base, podemos usar a função `which()` de forma a nos retornar o número da linha. Assim, o comando acima poderia ser reescrito da seguinte maneira:
+
+```{r}
+anobase <- which(automoveis$Ano == 2016)
+anobase
+```
+
+```{r}
+for (i in 1:nrow(automoveis)) {
+  automoveis$`Índice 2016`[i] <- (
+      (automoveis$`Índice 2011`[i] / automoveis$`Índice 2011`[`anobase`]) * 100
+    ) %>%
+    round(digits = 2)
+}
+
+automoveis %>%
+  paged_table()
+```
+
+
+### Base móvel
+
+<div class="blue">
+
+Vamos agora ver a construção de um índice com base móvel. Nesse caso, cada período considera o período anterior como a base:
+
+$$
+x_{t-1,t} = \frac{x_t}{x_{t-1}}
+$$
+
+</div><br>
+
+No R, basta indicar que o ano base deve mudar para cada observação, sendo o ano anterior o desejado. Como o primeiro ano não possui um período anterior de referência, ele fica em branco. Assim, precisamos indicar ao R que essa linha ficará sem dados (`NA`) e na estrutura de repetição `for` vamos começar da segunda linha, indicando que `i in 2:nrow(automoveis`).
+
+```{r}
+automoveis$`Base Móvel` <- NA
+
+for (i in 2:nrow(automoveis)) {
+  automoveis$`Base Móvel`[i] <- (
+      (automoveis$`Quantidade`[i] / automoveis$`Quantidade`[i-1]) * 100
+    ) %>%
+    round(digits = 2)
+}
+
+automoveis %>%
+  paged_table()
+```
+
+Infelizmente, o pacote `IndexNumber` não possui uma função para mudança de base. 
+
+<br>
+
+# Exercício
+
+Vamos aplicar o assunto visto até agora em um exemplo real. Para isso, vamos utilizar uma base com os valores do PIB per capita do Brasil de 1996 a 2018, retirados do site do IBGE: https://www.ibge.gov.br/explica/pib.php
+
