@@ -4,7 +4,7 @@ description:
 author:
   - name: Rafael Peixoto
     affiliation: Universidade Estadual de Campinas
-date: 10-21-2021
+date: 11-02-2021
 site: distill::distill_website
 ---
 
@@ -15,8 +15,13 @@ site: distill::distill_website
   padding: 20px;
 }
 
+.red {
+  color: Tomato;
+}
+
 .border {
-  border-style: double;
+  border-style: solid;
+  border-width: 1px;
   border-color: red;
   border-radius: 12px;
   padding: 5px;
@@ -28,6 +33,7 @@ site: distill::distill_website
 knitr::opts_chunk$set(echo = T)
 library(tidyverse)
 library(rmarkdown)
+library(readxl)
 ```
 
 # Introdução
@@ -52,10 +58,10 @@ Exemplos:
 
 <br>
 
-Um número índice pode ser simples ou composto:
+Um número índice pode ser simples ou agregado (composto):
 
 - Simples: só um objeto é analisado
-- Composto: um grupo de objetos é analisado
+- Agregado (ou Composto): um grupo de objetos é analisado
 
 <br>
 
@@ -232,7 +238,9 @@ No R, podemos assim adicionar esse índice à tabela:
 
 ```{r}
 for (i in 1:nrow(automoveis)) {
-  automoveis$`Índice 2011`[i] <- ((automoveis$Quantidade[i] / automoveis$Quantidade[1]) * 100) %>%
+  automoveis$`Índice 2011`[i] <- (
+      (automoveis$Quantidade[i] / automoveis$Quantidade[1]) * 100
+    ) %>%
     round(digits = 2)
 }
 ```
@@ -310,7 +318,7 @@ anobase
 ```{r}
 for (i in 1:nrow(automoveis)) {
   automoveis$`Índice 2016`[i] <- (
-      (automoveis$`Índice 2011`[i] / automoveis$`Índice 2011`[`anobase`]) * 100
+      (automoveis$`Índice 2011`[i] / automoveis$`Índice 2011`[anobase]) * 100
     ) %>%
     round(digits = 2)
 }
@@ -352,7 +360,327 @@ Infelizmente, o pacote `IndexNumber` não possui uma função para mudança de b
 
 <br>
 
-# Exercício
+# Exercício 1
 
 Vamos aplicar o assunto visto até agora em um exemplo real. Para isso, vamos utilizar uma base com os valores do PIB per capita do Brasil de 1996 a 2018, retirados do site do IBGE: https://www.ibge.gov.br/explica/pib.php
+
+A partir desta base, obtenha a série de números índices considerando
+
+a. Base fixa igual a 2010.
+b. Base fixa igual à média dos últimos cinco anos.
+c. Calcule a variação percentual anual (base móvel)
+d. Interprete os resultados.
+
+Primeiramente, vamos importar os dados da planilha Excel:
+
+```{r}
+dados <- read_excel("Tabela 6784.xlsx", col_names = FALSE)
+
+dados %>%
+  paged_table()
+```
+
+A tabela precisa ser formatada. Não queremos as quatro primeiras linhas e nem a última. Assim, vamos selecionar as linhas a partir da quinta até a última menos uma. Adicionalmente, vamos nomear as colunas e transformar a coluna "Ano" de uma variável "character" para uma "integer".
+
+```{r}
+PIBpc <- dados %>%
+  slice(5:(n() - 1)) %>%
+  select("Ano" = 1, "Valor" = 2) %>%
+  mutate("Ano" = `Ano` %>% as.integer()) 
+
+PIBpc %>%
+  paged_table()
+```
+
+### a. Base fixa igual a 2010.
+
+Para construir esse índice com base fixa em 2010, vamos utilizar a estrutura de repetição que vimos anteriormente:
+
+```{r}
+anobase <- which(PIBpc$Ano == 2010)
+
+for (i in 1:nrow(PIBpc)) {
+  PIBpc$`Índice 2010`[i] <- (PIBpc$Valor[i] / PIBpc$Valor[anobase] * 100) %>%
+    round(digits = 2)
+}
+
+PIBpc %>%
+  paged_table()
+```
+
+### b. Base fixa igual à média dos últimos cinco anos.
+
+Para construir o índice com uma base que é igual a média certos anos, a lógica é semelhante, porém ao invés de dividirmos o valor de cada ano pelo valor de um determinado ano, vamos dividir pelo média de um certo número de anos, que no caso é cinco.
+
+Vamos primeiro calcular a média dos últimos cinco anos.
+
+```{r}
+media5u <- PIBpc$Valor %>%
+  tail(5) %>% 
+  mean()
+
+media5u
+```
+
+Agora vamos utilizar a estrutura de repetição para montar o índice.
+
+```{r}
+for (i in 1:nrow(PIBpc)) {
+  PIBpc$`Índice 2014:2018`[i] <- (PIBpc$Valor[i] / media5u * 100) %>%
+    round(digits = 2)
+}
+
+PIBpc %>%
+  paged_table()
+```
+
+
+### c. Calcule a variação percentual anual (base móvel)
+
+Para construir a base móvel basta dividir o valor de cada ano pelo valor do ano anterior. Lembrando que o primeiro ano não possui um ano anbterior para utilizar, portanto assinalamos um valor `NA` para ele. 
+
+```{r}
+PIBpc$`Base Móvel` <- NA
+
+for (i in 2:nrow(PIBpc)) {
+  PIBpc$`Base Móvel`[i] <- (PIBpc$`Valor`[i] / PIBpc$`Valor`[i-1] * 100) %>%
+    round(digits = 2)
+}
+
+PIBpc %>%
+  paged_table()
+```
+
+### d. Interprete os resultados.
+
+Este item vou deixar como tarefa para vocês. Analisem o que significa os valores das colunas que construimos.
+
+<br>
+
+# Índices agregados
+
+Todos os casos vistos até agora dizem respeito a apenas um objeto ou item tendo o seu preço/quantidade/valor variado ao longo do tempo. Ou seja, só vimos índices simples. Vamos ver agora índices agregados (ou compostos).
+
+Exemplos de índices agregados são os índices gerais de preços, que dizem respeito a uma cesta de bens e não apenas a um único bem. Existem diversos índices desse tipo, cada qual com uma cesta de bens diferentes. Como por exemplo:
+
+```{r, echo=FALSE, layout="l-body-outset"}
+knitr::include_graphics(path = "ibgeindicespreco.png")
+```
+
+Existem diversos métodos para a construção de índices agregados. 
+
+<div class="blue">
+
+Listamos alguns desses abaixo. Desses, apenas o último não é um índice de preços.
+
++------------------------------------------+-----------+
+| Índice                                   | Tipo      |
++==========================================+===========+
+|1) Índice agregativo simples (Bradstreet) | Simples   |
+|2) Índice de Sauerbeck                    |           |
++------------------------------------------+-----------+
+|3) Índice de Laspeyres e Paasche          |Ponderados |
+|4) Índice de Fisher                       |           |
+|5) Índice de Marshall-Edgeworth           |           |
+|6) Índice de Divisia                      |           |
+|7) Índices de Quantidade e Valor          |           |
+
+</div><br>
+
+
+# Índices agregados simples
+
+### Índice agregativo simples (Bradstreet)
+
+Esse índice calcula a proporção entre a soma dos preços de um conjunto de mercadorias no período $t$ e a soma de preços do mesmo conjunto de mercadorias no período base. 
+
+<div class="blue">
+
+Para tanto, utiliza uma média simples:
+
+$$
+I_A = \frac{\sum_{i=1}^np_{it}}{\sum_{i=1}^np_{i0}}
+$$
+
+</div><br>
+
+Por exemplo, as compras de supermercado em duas épocas diferentes.
+
+```{r}
+compras <- tibble(
+  "Mercadorias" = c("Carne (Kg)", "Leite (L)", "Cafeteira (u)"),
+  "Preço 2016" = c(20, 4, 110),
+  "Quantidade 2016" = c(6, 12, 1),
+  "Preço 2017" = c(22, 4.40, 150),
+  "Quantidade 2017" = c(5, 20, 1)
+)
+
+compras %>%
+  paged_table()
+```
+
+Para calcular o índice de Bradstreet basta dividirmos a soma dos preços em 2017 pela soma dos preços em 2016. Observe que o índice NÃO utiliza as quantidades no cálculo. Vamos multiplicar o resultado por 100 para ficar no mesmo formato que viemos utilizando.
+
+```{r}
+IA <- sum(compras$`Preço 2017`) / sum(compras$`Preço 2016`) * 100
+
+IA
+```
+
+### Índice de Sauerbeck
+
+<div class="blue">
+
+Esse índice calcula a média aritmética simples de relativos de preços. Observe que é a soma da divião dos preços, e não a divisão das somas dos preços.
+
+$$
+I_S = \frac{1}{n} \sum_{i=1}^n \frac{p_{it}}{p_{i0}}
+$$
+
+</div><br>
+
+Vamos utilizar o mesmo exemplo das compras mostrado acima.
+
+```{r}
+compras %>%
+  paged_table()
+```
+
+Neste caso, vamos ter que utilizar uma estrutura de repetição para facilitar o cálculo da somatória das divisões.
+
+```{r}
+divisoes <- vector(length = nrow(compras))
+
+for (i in 1:nrow(compras)) {
+  divisoes[i] <- compras$`Preço 2017`[i] / compras$`Preço 2016`[i]
+}
+
+divisoes
+```
+
+```{r}
+IS <- (1 / nrow(compras)) * sum(divisoes) * 100
+
+IS
+```
+
+### Comparação dos índices
+
+Vamos construir um índice simples (como fizemos lá no início) para essa tabela de compras. Para isso, basta dividirmos o preço de cada item em 2017 pelo seu preço em 2016 e multiplicar por 100.
+
+```{r, layout="l-body-outset"}
+Isimples <- compras %>%
+  mutate("Índice 2016" = (`Preço 2017` / `Preço 2016` * 100) %>% 
+           round(2))
+
+Isimples %>%
+  paged_table()
+```
+
+Agora vamos comprar esses índices.
+
+```{r}
+list(
+  "Simples" = Isimples$`Índice 2016`, 
+  "IS" = IS, 
+  "IA" = IA
+)
+```
+
+<div class="blue">
+
+Nota-se então que os índices agregados simples:
+
+- Não levam em conta a importância econômica de cada mercadoria.
+- IA é afetado pela heterogeneidade das unidades.
+
+</div><br>
+
+# Exercício 2
+
+A partir dos dados abaixo, calcule o IA e IS e analise os resultados.
+
+```{r}
+cesta <- tibble(
+  "Bem" = c("Carne (Kg)", "Batata (Kg)", "Gasolina (l)", "Calça Jeans (u)"),
+  "Preço 2006" = c(20, 1.8, 2.1, 60),
+  "Preço 2009" = c(27, 2.2, 2.5, 80)
+)
+
+cesta %>%
+  paged_table()
+```
+
+### IA
+
+Para calcular o IA basta dividir a soma dos preços de 2009 pela soma dos preços de 2006.
+
+```{r}
+IA <- sum(cesta$`Preço 2009`) / sum(cesta$`Preço 2006`) * 100
+
+IA
+```
+
+### IS
+
+Para calcular o IS, precisamos calcular antes a divisão de cada item.
+
+```{r}
+divisao <- vector(length = nrow(cesta))
+
+for (i in 1:nrow(cesta)) {
+  divisao[i] <- cesta$`Preço 2009`[i] / cesta$`Preço 2006`[i]
+}
+
+divisao
+```
+
+Agora, basta somar essas divisões e dividir pelo número de itens.
+
+```{r}
+IS <- (1 / nrow(cesta)) * sum(divisao) * 100
+
+IS
+```
+
+<br>
+
+# Índices agregados Ponderados
+
+### Índice de Laspeyres
+
+<div class="blue">
+
+O Índice de Laspeyres calcula a média ponderada dos preços relativos das mercadorias, usando como **fatores de ponderação** os valores monetários das quantidades de cada mercadoria vendidas na <span class="border"> **época base**.</span> Como os fatores de ponderação se referem ao período base e esse não muda, os pesos são fixos para todos os períodos.
+
+$$
+I_L = \frac{\sum_{i=1}^n \left(\frac{p_{it}}{p_{i0}}\right) \times \color{red}{(p_{i0}q_{i0})}}{\sum_{i=1}^n \color{red}{(p_{i0}q_{i0})}}
+    = \boxed{ \frac{\sum_{i=1}^np_{it} \times q_{i0}}{\sum_{i=1}^n p_{i0} \times q_{i0}} }
+$$
+
+</div><br>
+
+
+Alternativamente, podemos assim calcular o índice de Laspeyres:
+
+$$
+I_L = \sum_{i=1}^n \left( \frac{p_{it}}{p_{i0}} \right) \times w_{i0} \, ; 
+\qquad w_{i0} = \frac{p_{i0} \times q_{i0}}{\sum_{i=1}^n p_{i0} \times q_{i0}} = \frac{v_{i0}}{V_0}
+$$
+
+Com,
+
+$$
+\sum_{i=1}^nw_{i0} = 1
+$$
+
+
+Importante observar:
+
+- Cesta usada é da época base
+- Pesos fixos enquanto não se mudar a base
+
+### Índice de Paasche
+
+
 

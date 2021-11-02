@@ -95,8 +95,8 @@ code span.wa { color: #da4453; } /* Warning */
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2021-10-21"/>
-  <meta property="article:created" itemprop="dateCreated" content="2021-10-21"/>
+  <meta property="article:published" itemprop="datePublished" content="2021-11-02"/>
+  <meta property="article:created" itemprop="dateCreated" content="2021-11-02"/>
   <meta name="article:author" content="Rafael Peixoto"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
@@ -113,7 +113,7 @@ code span.wa { color: #da4453; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","site"]}},"value":[{"type":"character","attributes":{},"value":["Índices Econômicos"]},{"type":"NULL"},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Rafael Peixoto"]},{"type":"character","attributes":{},"value":["Universidade Estadual de Campinas"]}]}]},{"type":"character","attributes":{},"value":["10-21-2021"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","site"]}},"value":[{"type":"character","attributes":{},"value":["Índices Econômicos"]},{"type":"NULL"},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Rafael Peixoto"]},{"type":"character","attributes":{},"value":["Universidade Estadual de Campinas"]}]}]},{"type":"character","attributes":{},"value":["11-02-2021"]},{"type":"character","attributes":{},"value":["distill::distill_website"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2410,7 +2410,7 @@ code span.wa { color: #da4453; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Índices Econômicos","authors":[{"author":"Rafael Peixoto","authorURL":"#","affiliation":"Universidade Estadual de Campinas","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-10-21T00:00:00.000-03:00","citationText":"Peixoto, 2021"}
+{"title":"Índices Econômicos","authors":[{"author":"Rafael Peixoto","authorURL":"#","affiliation":"Universidade Estadual de Campinas","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-11-02T00:00:00.000-03:00","citationText":"Peixoto, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2506,7 +2506,7 @@ btn.on('click', (e) => {
 <div class="d-byline">
   Rafael Peixoto  (Universidade Estadual de Campinas)
   
-<br/>10-21-2021
+<br/>11-02-2021
 </div>
 
 <div class="d-article">
@@ -2526,7 +2526,30 @@ btn.on('click', (e) => {
 <li><a href="#base-fixa">Base fixa</a></li>
 <li><a href="#base-móvel">Base móvel</a></li>
 </ul></li>
-<li><a href="#exercício">Exercício</a></li>
+<li><a href="#exercício-1">Exercício 1</a>
+<ul>
+<li><a href="#a.-base-fixa-igual-a-2010.">a. Base fixa igual a 2010.</a></li>
+<li><a href="#b.-base-fixa-igual-à-média-dos-últimos-cinco-anos.">b. Base fixa igual à média dos últimos cinco anos.</a></li>
+<li><a href="#c.-calcule-a-variação-percentual-anual-base-móvel">c. Calcule a variação percentual anual (base móvel)</a></li>
+<li><a href="#d.-interprete-os-resultados.">d. Interprete os resultados.</a></li>
+</ul></li>
+<li><a href="#índices-agregados">Índices agregados</a></li>
+<li><a href="#índices-agregados-simples">Índices agregados simples</a>
+<ul>
+<li><a href="#índice-agregativo-simples-bradstreet">Índice agregativo simples (Bradstreet)</a></li>
+<li><a href="#índice-de-sauerbeck">Índice de Sauerbeck</a></li>
+<li><a href="#comparação-dos-índices">Comparação dos índices</a></li>
+</ul></li>
+<li><a href="#exercício-2">Exercício 2</a>
+<ul>
+<li><a href="#ia">IA</a></li>
+<li><a href="#is">IS</a></li>
+</ul></li>
+<li><a href="#índices-agregados-ponderados">Índices agregados Ponderados</a>
+<ul>
+<li><a href="#índice-de-laspeyres">Índice de Laspeyres</a></li>
+<li><a href="#índice-de-paasche">Índice de Paasche</a></li>
+</ul></li>
 </ul>
 </nav>
 </div>
@@ -2538,8 +2561,13 @@ btn.on('click', (e) => {
   padding: 20px;
 }
 
+.red {
+  color: Tomato;
+}
+
 .border {
-  border-style: double;
+  border-style: solid;
+  border-width: 1px;
   border-color: red;
   border-radius: 12px;
   padding: 5px;
@@ -2564,10 +2592,10 @@ btn.on('click', (e) => {
 <li>Crescimento do PIB em um determinado período.</li>
 </ul>
 <p><br></p>
-<p>Um número índice pode ser simples ou composto:</p>
+<p>Um número índice pode ser simples ou agregado (composto):</p>
 <ul>
 <li>Simples: só um objeto é analisado</li>
-<li>Composto: um grupo de objetos é analisado</li>
+<li>Agregado (ou Composto): um grupo de objetos é analisado</li>
 </ul>
 <p><br></p>
 <h1 id="índices-relativos">Índices relativos</h1>
@@ -2693,7 +2721,9 @@ Q_{2011,2012} = \frac{3628}{3491} \times 100 = 106.11
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>automoveis</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>automoveis</span><span class='op'>$</span><span class='va'>`Índice 2011`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='op'>(</span><span class='va'>automoveis</span><span class='op'>$</span><span class='va'>Quantidade</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>automoveis</span><span class='op'>$</span><span class='va'>Quantidade</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='va'>automoveis</span><span class='op'>$</span><span class='va'>`Índice 2011`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span>
+      <span class='op'>(</span><span class='va'>automoveis</span><span class='op'>$</span><span class='va'>Quantidade</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>automoveis</span><span class='op'>$</span><span class='va'>Quantidade</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
+    <span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 <span class='op'>}</span>
 </code></pre>
@@ -2795,7 +2825,7 @@ Q_{2016, 2011} = \frac{100}{58.12} \times 100 = 172.05
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>automoveis</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>automoveis</span><span class='op'>$</span><span class='va'>`Índice 2016`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span>
-      <span class='op'>(</span><span class='va'>automoveis</span><span class='op'>$</span><span class='va'>`Índice 2011`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>automoveis</span><span class='op'>$</span><span class='va'>`Índice 2011`</span><span class='op'>[</span><span class='va'>`anobase`</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
+      <span class='op'>(</span><span class='va'>automoveis</span><span class='op'>$</span><span class='va'>`Índice 2011`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>automoveis</span><span class='op'>$</span><span class='va'>`Índice 2011`</span><span class='op'>[</span><span class='va'>anobase</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
     <span class='op'>)</span> <span class='op'>%&gt;%</span>
     <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 <span class='op'>}</span>
@@ -2841,9 +2871,381 @@ x_{t-1,t} = \frac{x_t}{x_{t-1}}
 </div>
 </div>
 <p>Infelizmente, o pacote <code>IndexNumber</code> não possui uma função para mudança de base.</p>
-<h1 id="exercício">Exercício</h1>
+<p><br></p>
+<h1 id="exercício-1">Exercício 1</h1>
 <p>Vamos aplicar o assunto visto até agora em um exemplo real. Para isso, vamos utilizar uma base com os valores do PIB per capita do Brasil de 1996 a 2018, retirados do site do IBGE: <a href="https://www.ibge.gov.br/explica/pib.php" class="uri">https://www.ibge.gov.br/explica/pib.php</a></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>A partir desta base, obtenha a série de números índices considerando</p>
+<ol type="a">
+<li>Base fixa igual a 2010.</li>
+<li>Base fixa igual à média dos últimos cinco anos.</li>
+<li>Calcule a variação percentual anual (base móvel)</li>
+<li>Interprete os resultados.</li>
+</ol>
+<p>Primeiramente, vamos importar os dados da planilha Excel:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>dados</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_excel</a></span><span class='op'>(</span><span class='st'>"Tabela 6784.xlsx"</span>, col_names <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='va'>dados</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["...1"],"name":[1],"type":["chr"],"align":["left"]},{"label":["...2"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Tabela 6784 - Produto Interno Bruto, Produto Interno Bruto per capita, População residente e Deflator","2":"NA"},{"1":"Variável - PIB per capita - valores correntes (Reais)","2":"NA"},{"1":"Brasil","2":"NA"},{"1":"Ano","2":"NA"},{"1":"1996","2":"5219.36"},{"1":"1997","2":"5729.02"},{"1":"1998","2":"5944.92"},{"1":"1999","2":"6359.80"},{"1":"2000","2":"6900.62"},{"1":"2001","2":"7467.03"},{"1":"2002","2":"8340.58"},{"1":"2003","2":"9506.76"},{"1":"2004","2":"10705.99"},{"1":"2005","2":"11733.45"},{"1":"2006","2":"12880.52"},{"1":"2007","2":"14390.01"},{"1":"2008","2":"16280.82"},{"1":"2009","2":"17271.34"},{"1":"2010","2":"19938.60"},{"1":"2011","2":"22259.91"},{"1":"2012","2":"24278.35"},{"1":"2013","2":"26657.54"},{"1":"2014","2":"28648.74"},{"1":"2015","2":"29466.85"},{"1":"2016","2":"30558.75"},{"1":"2017","2":"31843.95"},{"1":"2018","2":"33593.82"},{"1":"Fonte: IBGE - Contas Nacionais Anuais","2":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>A tabela precisa ser formatada. Não queremos as quatro primeiras linhas e nem a última. Assim, vamos selecionar as linhas a partir da quinta até a última menos uma. Adicionalmente, vamos nomear as colunas e transformar a coluna “Ano” de uma variável “character” para uma “integer”.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>PIBpc</span> <span class='op'>&lt;-</span> <span class='va'>dados</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>5</span><span class='op'>:</span><span class='op'>(</span><span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='st'>"Ano"</span> <span class='op'>=</span> <span class='fl'>1</span>, <span class='st'>"Valor"</span> <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Ano"</span> <span class='op'>=</span> <span class='va'>`Ano`</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> 
+
+<span class='va'>PIBpc</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Ano"],"name":[1],"type":["int"],"align":["right"]},{"label":["Valor"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1996","2":"5219.36"},{"1":"1997","2":"5729.02"},{"1":"1998","2":"5944.92"},{"1":"1999","2":"6359.80"},{"1":"2000","2":"6900.62"},{"1":"2001","2":"7467.03"},{"1":"2002","2":"8340.58"},{"1":"2003","2":"9506.76"},{"1":"2004","2":"10705.99"},{"1":"2005","2":"11733.45"},{"1":"2006","2":"12880.52"},{"1":"2007","2":"14390.01"},{"1":"2008","2":"16280.82"},{"1":"2009","2":"17271.34"},{"1":"2010","2":"19938.60"},{"1":"2011","2":"22259.91"},{"1":"2012","2":"24278.35"},{"1":"2013","2":"26657.54"},{"1":"2014","2":"28648.74"},{"1":"2015","2":"29466.85"},{"1":"2016","2":"30558.75"},{"1":"2017","2":"31843.95"},{"1":"2018","2":"33593.82"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<h3 id="a.-base-fixa-igual-a-2010.">a. Base fixa igual a 2010.</h3>
+<p>Para construir esse índice com base fixa em 2010, vamos utilizar a estrutura de repetição que vimos anteriormente:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>anobase</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>Ano</span> <span class='op'>==</span> <span class='fl'>2010</span><span class='op'>)</span>
+
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>PIBpc</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>`Índice 2010`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>Valor</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>Valor</span><span class='op'>[</span><span class='va'>anobase</span><span class='op'>]</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>PIBpc</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Ano"],"name":[1],"type":["int"],"align":["right"]},{"label":["Valor"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Índice 2010"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1996","2":"5219.36","3":"26.18"},{"1":"1997","2":"5729.02","3":"28.73"},{"1":"1998","2":"5944.92","3":"29.82"},{"1":"1999","2":"6359.80","3":"31.90"},{"1":"2000","2":"6900.62","3":"34.61"},{"1":"2001","2":"7467.03","3":"37.45"},{"1":"2002","2":"8340.58","3":"41.83"},{"1":"2003","2":"9506.76","3":"47.68"},{"1":"2004","2":"10705.99","3":"53.69"},{"1":"2005","2":"11733.45","3":"58.85"},{"1":"2006","2":"12880.52","3":"64.60"},{"1":"2007","2":"14390.01","3":"72.17"},{"1":"2008","2":"16280.82","3":"81.65"},{"1":"2009","2":"17271.34","3":"86.62"},{"1":"2010","2":"19938.60","3":"100.00"},{"1":"2011","2":"22259.91","3":"111.64"},{"1":"2012","2":"24278.35","3":"121.77"},{"1":"2013","2":"26657.54","3":"133.70"},{"1":"2014","2":"28648.74","3":"143.68"},{"1":"2015","2":"29466.85","3":"147.79"},{"1":"2016","2":"30558.75","3":"153.26"},{"1":"2017","2":"31843.95","3":"159.71"},{"1":"2018","2":"33593.82","3":"168.49"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<h3 id="b.-base-fixa-igual-à-média-dos-últimos-cinco-anos.">b. Base fixa igual à média dos últimos cinco anos.</h3>
+<p>Para construir o índice com uma base que é igual a média certos anos, a lógica é semelhante, porém ao invés de dividirmos o valor de cada ano pelo valor de um determinado ano, vamos dividir pelo média de um certo número de anos, que no caso é cinco.</p>
+<p>Vamos primeiro calcular a média dos últimos cinco anos.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>media5u</span> <span class='op'>&lt;-</span> <span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>Valor</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='va'>media5u</span>
+</code></pre>
+</div>
+<pre><code>[1] 30822.42</code></pre>
+</div>
+<p>Agora vamos utilizar a estrutura de repetição para montar o índice.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>PIBpc</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>`Índice 2014:2018`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>Valor</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>media5u</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>PIBpc</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Ano"],"name":[1],"type":["int"],"align":["right"]},{"label":["Valor"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Índice 2010"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Índice 2014:2018"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1996","2":"5219.36","3":"26.18","4":"16.93"},{"1":"1997","2":"5729.02","3":"28.73","4":"18.59"},{"1":"1998","2":"5944.92","3":"29.82","4":"19.29"},{"1":"1999","2":"6359.80","3":"31.90","4":"20.63"},{"1":"2000","2":"6900.62","3":"34.61","4":"22.39"},{"1":"2001","2":"7467.03","3":"37.45","4":"24.23"},{"1":"2002","2":"8340.58","3":"41.83","4":"27.06"},{"1":"2003","2":"9506.76","3":"47.68","4":"30.84"},{"1":"2004","2":"10705.99","3":"53.69","4":"34.73"},{"1":"2005","2":"11733.45","3":"58.85","4":"38.07"},{"1":"2006","2":"12880.52","3":"64.60","4":"41.79"},{"1":"2007","2":"14390.01","3":"72.17","4":"46.69"},{"1":"2008","2":"16280.82","3":"81.65","4":"52.82"},{"1":"2009","2":"17271.34","3":"86.62","4":"56.03"},{"1":"2010","2":"19938.60","3":"100.00","4":"64.69"},{"1":"2011","2":"22259.91","3":"111.64","4":"72.22"},{"1":"2012","2":"24278.35","3":"121.77","4":"78.77"},{"1":"2013","2":"26657.54","3":"133.70","4":"86.49"},{"1":"2014","2":"28648.74","3":"143.68","4":"92.95"},{"1":"2015","2":"29466.85","3":"147.79","4":"95.60"},{"1":"2016","2":"30558.75","3":"153.26","4":"99.14"},{"1":"2017","2":"31843.95","3":"159.71","4":"103.31"},{"1":"2018","2":"33593.82","3":"168.49","4":"108.99"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<h3 id="c.-calcule-a-variação-percentual-anual-base-móvel">c. Calcule a variação percentual anual (base móvel)</h3>
+<p>Para construir a base móvel basta dividir o valor de cada ano pelo valor do ano anterior. Lembrando que o primeiro ano não possui um ano anbterior para utilizar, portanto assinalamos um valor <code>NA</code> para ele.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>`Base Móvel`</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span>
+
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>2</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>PIBpc</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>`Base Móvel`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>`Valor`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>`Valor`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span>digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='va'>PIBpc</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Ano"],"name":[1],"type":["int"],"align":["right"]},{"label":["Valor"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Índice 2010"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Índice 2014:2018"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Base Móvel"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1996","2":"5219.36","3":"26.18","4":"16.93","5":"NA"},{"1":"1997","2":"5729.02","3":"28.73","4":"18.59","5":"109.76"},{"1":"1998","2":"5944.92","3":"29.82","4":"19.29","5":"103.77"},{"1":"1999","2":"6359.80","3":"31.90","4":"20.63","5":"106.98"},{"1":"2000","2":"6900.62","3":"34.61","4":"22.39","5":"108.50"},{"1":"2001","2":"7467.03","3":"37.45","4":"24.23","5":"108.21"},{"1":"2002","2":"8340.58","3":"41.83","4":"27.06","5":"111.70"},{"1":"2003","2":"9506.76","3":"47.68","4":"30.84","5":"113.98"},{"1":"2004","2":"10705.99","3":"53.69","4":"34.73","5":"112.61"},{"1":"2005","2":"11733.45","3":"58.85","4":"38.07","5":"109.60"},{"1":"2006","2":"12880.52","3":"64.60","4":"41.79","5":"109.78"},{"1":"2007","2":"14390.01","3":"72.17","4":"46.69","5":"111.72"},{"1":"2008","2":"16280.82","3":"81.65","4":"52.82","5":"113.14"},{"1":"2009","2":"17271.34","3":"86.62","4":"56.03","5":"106.08"},{"1":"2010","2":"19938.60","3":"100.00","4":"64.69","5":"115.44"},{"1":"2011","2":"22259.91","3":"111.64","4":"72.22","5":"111.64"},{"1":"2012","2":"24278.35","3":"121.77","4":"78.77","5":"109.07"},{"1":"2013","2":"26657.54","3":"133.70","4":"86.49","5":"109.80"},{"1":"2014","2":"28648.74","3":"143.68","4":"92.95","5":"107.47"},{"1":"2015","2":"29466.85","3":"147.79","4":"95.60","5":"102.86"},{"1":"2016","2":"30558.75","3":"153.26","4":"99.14","5":"103.71"},{"1":"2017","2":"31843.95","3":"159.71","4":"103.31","5":"104.21"},{"1":"2018","2":"33593.82","3":"168.49","4":"108.99","5":"105.50"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<h3 id="d.-interprete-os-resultados.">d. Interprete os resultados.</h3>
+<p>Este item vou deixar como tarefa para vocês. Analisem o que significa os valores das colunas que construimos.</p>
+<p><br></p>
+<h1 id="índices-agregados">Índices agregados</h1>
+<p>Todos os casos vistos até agora dizem respeito a apenas um objeto ou item tendo o seu preço/quantidade/valor variado ao longo do tempo. Ou seja, só vimos índices simples. Vamos ver agora índices agregados (ou compostos).</p>
+<p>Exemplos de índices agregados são os índices gerais de preços, que dizem respeito a uma cesta de bens e não apenas a um único bem. Existem diversos índices desse tipo, cada qual com uma cesta de bens diferentes. Como por exemplo:</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="ibgeindicespreco.png" width="519" /></p>
+</div>
+<p>Existem diversos métodos para a construção de índices agregados.</p>
+<div class="blue">
+<p>Listamos alguns desses abaixo. Desses, apenas o último não é um índice de preços.</p>
+<table style="width:76%;">
+<colgroup>
+<col style="width: 59%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Índice</th>
+<th>Tipo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><ol type="1">
+<li>Índice agregativo simples (Bradstreet)</li>
+<li>Índice de Sauerbeck</li>
+</ol></td>
+<td>Simples</td>
+</tr>
+<tr class="even">
+<td><ol start="3" type="1">
+<li>Índice de Laspeyres e Paasche</li>
+<li>Índice de Fisher</li>
+<li>Índice de Marshall-Edgeworth</li>
+<li>Índice de Divisia</li>
+<li>Índices de Quantidade e Valor</li>
+</ol></td>
+<td>Ponderados</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+<h1 id="índices-agregados-simples">Índices agregados simples</h1>
+<h3 id="índice-agregativo-simples-bradstreet">Índice agregativo simples (Bradstreet)</h3>
+<p>Esse índice calcula a proporção entre a soma dos preços de um conjunto de mercadorias no período <span class="math inline">\(t\)</span> e a soma de preços do mesmo conjunto de mercadorias no período base.</p>
+<div class="blue">
+<p>Para tanto, utiliza uma média simples:</p>
+<p><span class="math display">\[
+I_A = \frac{\sum_{i=1}^np_{it}}{\sum_{i=1}^np_{i0}}
+\]</span></p>
+</div>
+<p><br></p>
+<p>Por exemplo, as compras de supermercado em duas épocas diferentes.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>compras</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
+  <span class='st'>"Mercadorias"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Carne (Kg)"</span>, <span class='st'>"Leite (L)"</span>, <span class='st'>"Cafeteira (u)"</span><span class='op'>)</span>,
+  <span class='st'>"Preço 2016"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>4</span>, <span class='fl'>110</span><span class='op'>)</span>,
+  <span class='st'>"Quantidade 2016"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6</span>, <span class='fl'>12</span>, <span class='fl'>1</span><span class='op'>)</span>,
+  <span class='st'>"Preço 2017"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>22</span>, <span class='fl'>4.40</span>, <span class='fl'>150</span><span class='op'>)</span>,
+  <span class='st'>"Quantidade 2017"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>20</span>, <span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='va'>compras</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Mercadorias"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Preço 2016"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Quantidade 2016"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Preço 2017"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Quantidade 2017"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Carne (Kg)","2":"20","3":"6","4":"22.0","5":"5"},{"1":"Leite (L)","2":"4","3":"12","4":"4.4","5":"20"},{"1":"Cafeteira (u)","2":"110","3":"1","4":"150.0","5":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Para calcular o índice de Bradstreet basta dividirmos a soma dos preços em 2017 pela soma dos preços em 2016. Observe que o índice NÃO utiliza as quantidades no cálculo. Vamos multiplicar o resultado por 100 para ficar no mesmo formato que viemos utilizando.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>IA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>compras</span><span class='op'>$</span><span class='va'>`Preço 2017`</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>compras</span><span class='op'>$</span><span class='va'>`Preço 2016`</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
+
+<span class='va'>IA</span>
+</code></pre>
+</div>
+<pre><code>[1] 131.6418</code></pre>
+</div>
+<h3 id="índice-de-sauerbeck">Índice de Sauerbeck</h3>
+<div class="blue">
+<p>Esse índice calcula a média aritmética simples de relativos de preços. Observe que é a soma da divião dos preços, e não a divisão das somas dos preços.</p>
+<p><span class="math display">\[
+I_S = \frac{1}{n} \sum_{i=1}^n \frac{p_{it}}{p_{i0}}
+\]</span></p>
+</div>
+<p><br></p>
+<p>Vamos utilizar o mesmo exemplo das compras mostrado acima.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>compras</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Mercadorias"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Preço 2016"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Quantidade 2016"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Preço 2017"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Quantidade 2017"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Carne (Kg)","2":"20","3":"6","4":"22.0","5":"5"},{"1":"Leite (L)","2":"4","3":"12","4":"4.4","5":"20"},{"1":"Cafeteira (u)","2":"110","3":"1","4":"150.0","5":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Neste caso, vamos ter que utilizar uma estrutura de repetição para facilitar o cálculo da somatória das divisões.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>divisoes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>length <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>compras</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>compras</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>divisoes</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>compras</span><span class='op'>$</span><span class='va'>`Preço 2017`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>compras</span><span class='op'>$</span><span class='va'>`Preço 2016`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span>
+<span class='op'>}</span>
+
+<span class='va'>divisoes</span>
+</code></pre>
+</div>
+<pre><code>[1] 1.100000 1.100000 1.363636</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>IS</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>compras</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>divisoes</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
+
+<span class='va'>IS</span>
+</code></pre>
+</div>
+<pre><code>[1] 118.7879</code></pre>
+</div>
+<h3 id="comparação-dos-índices">Comparação dos índices</h3>
+<p>Vamos construir um índice simples (como fizemos lá no início) para essa tabela de compras. Para isso, basta dividirmos o preço de cada item em 2017 pelo seu preço em 2016 e multiplicar por 100.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Isimples</span> <span class='op'>&lt;-</span> <span class='va'>compras</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Índice 2016"</span> <span class='op'>=</span> <span class='op'>(</span><span class='va'>`Preço 2017`</span> <span class='op'>/</span> <span class='va'>`Preço 2016`</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+           <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>Isimples</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Mercadorias"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Preço 2016"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Quantidade 2016"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Preço 2017"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Quantidade 2017"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Índice 2016"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"Carne (Kg)","2":"20","3":"6","4":"22.0","5":"5","6":"110.00"},{"1":"Leite (L)","2":"4","3":"12","4":"4.4","5":"20","6":"110.00"},{"1":"Cafeteira (u)","2":"110","3":"1","4":"150.0","5":"1","6":"136.36"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<p>Agora vamos comprar esses índices.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+  <span class='st'>"Simples"</span> <span class='op'>=</span> <span class='va'>Isimples</span><span class='op'>$</span><span class='va'>`Índice 2016`</span>, 
+  <span class='st'>"IS"</span> <span class='op'>=</span> <span class='va'>IS</span>, 
+  <span class='st'>"IA"</span> <span class='op'>=</span> <span class='va'>IA</span>
+<span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>$Simples
+[1] 110.00 110.00 136.36
+
+$IS
+[1] 118.7879
+
+$IA
+[1] 131.6418</code></pre>
+</div>
+<div class="blue">
+<p>Nota-se então que os índices agregados simples:</p>
+<ul>
+<li>Não levam em conta a importância econômica de cada mercadoria.</li>
+<li>IA é afetado pela heterogeneidade das unidades.</li>
+</ul>
+</div>
+<p><br></p>
+<h1 id="exercício-2">Exercício 2</h1>
+<p>A partir dos dados abaixo, calcule o IA e IS e analise os resultados.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cesta</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
+  <span class='st'>"Bem"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Carne (Kg)"</span>, <span class='st'>"Batata (Kg)"</span>, <span class='st'>"Gasolina (l)"</span>, <span class='st'>"Calça Jeans (u)"</span><span class='op'>)</span>,
+  <span class='st'>"Preço 2006"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>1.8</span>, <span class='fl'>2.1</span>, <span class='fl'>60</span><span class='op'>)</span>,
+  <span class='st'>"Preço 2009"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>27</span>, <span class='fl'>2.2</span>, <span class='fl'>2.5</span>, <span class='fl'>80</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='va'>cesta</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Bem"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Preço 2006"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Preço 2009"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Carne (Kg)","2":"20.0","3":"27.0"},{"1":"Batata (Kg)","2":"1.8","3":"2.2"},{"1":"Gasolina (l)","2":"2.1","3":"2.5"},{"1":"Calça Jeans (u)","2":"60.0","3":"80.0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<h3 id="ia">IA</h3>
+<p>Para calcular o IA basta dividir a soma dos preços de 2009 pela soma dos preços de 2006.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>IA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>cesta</span><span class='op'>$</span><span class='va'>`Preço 2009`</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>cesta</span><span class='op'>$</span><span class='va'>`Preço 2006`</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
+
+<span class='va'>IA</span>
+</code></pre>
+</div>
+<pre><code>[1] 133.1347</code></pre>
+</div>
+<h3 id="is">IS</h3>
+<p>Para calcular o IS, precisamos calcular antes a divisão de cada item.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>divisao</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span><span class='op'>(</span>length <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>cesta</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>cesta</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>divisao</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>cesta</span><span class='op'>$</span><span class='va'>`Preço 2009`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>cesta</span><span class='op'>$</span><span class='va'>`Preço 2006`</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span>
+<span class='op'>}</span>
+
+<span class='va'>divisao</span>
+</code></pre>
+</div>
+<pre><code>[1] 1.350000 1.222222 1.190476 1.333333</code></pre>
+</div>
+<p>Agora, basta somar essas divisões e dividir pelo número de itens.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>IS</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>cesta</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>divisao</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
+
+<span class='va'>IS</span>
+</code></pre>
+</div>
+<pre><code>[1] 127.4008</code></pre>
+</div>
+<p><br></p>
+<h1 id="índices-agregados-ponderados">Índices agregados Ponderados</h1>
+<h3 id="índice-de-laspeyres">Índice de Laspeyres</h3>
+<div class="blue">
+<p>O Índice de Laspeyres calcula a média ponderada dos preços relativos das mercadorias, usando como <strong>fatores de ponderação</strong> os valores monetários das quantidades de cada mercadoria vendidas na <span class="border"> <strong>época base</strong>.</span> Como os fatores de ponderação se referem ao período base e esse não muda, os pesos são fixos para todos os períodos.</p>
+<p><span class="math display">\[
+I_L = \frac{\sum_{i=1}^n \left(\frac{p_{it}}{p_{i0}}\right) \times \color{red}{(p_{i0}q_{i0})}}{\sum_{i=1}^n \color{red}{(p_{i0}q_{i0})}}
+    = \boxed{ \frac{\sum_{i=1}^np_{it} \times q_{i0}}{\sum_{i=1}^n p_{i0} \times q_{i0}} }
+\]</span></p>
+</div>
+<p><br></p>
+<p>Alternativamente, podemos assim calcular o índice de Laspeyres:</p>
+<p><span class="math display">\[
+I_L = \sum_{i=1}^n \left( \frac{p_{it}}{p_{i0}} \right) \times w_{i0} \, ; 
+\qquad w_{i0} = \frac{p_{i0} \times q_{i0}}{\sum_{i=1}^n p_{i0} \times q_{i0}} = \frac{v_{i0}}{V_0}
+\]</span></p>
+<p>Com,</p>
+<p><span class="math display">\[
+\sum_{i=1}^nw_{i0} = 1
+\]</span></p>
+<p>Importante observar:</p>
+<ul>
+<li>Cesta usada é da época base</li>
+<li>Pesos fixos enquanto não se mudar a base</li>
+</ul>
+<h3 id="índice-de-paasche">Índice de Paasche</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
