@@ -113,3 +113,32 @@ d-article h2 {
 d-article h1 {
     margin-top: 0;
 }
+
+#hide {
+  width: 100%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: blue;
+  border-radius: 12px;
+  padding: 5px;
+  display: none;
+}
+
+.button {
+  background-color: #008CBA; /* Blue */
+  border-color: #008CBA;
+  border-style: solid;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  width: 15%;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button:hover {
+  background-color: white;
+  color: #008CBA;
+}

@@ -5,6 +5,10 @@ author:
   - name: Rafael Peixoto
     affiliation: Universidade Estadual de Campinas
 date: 11-02-2021
+bibliography: refs.bib
+nocite: | 
+  @hoffmann1980estatistica
+csl: abnt.csl
 site: distill::distill_website
 ---
 
@@ -22,7 +26,7 @@ site: distill::distill_website
 .border {
   border-style: solid;
   border-width: 1px;
-  border-color: red;
+  border-color: blue;
   border-radius: 12px;
   padding: 5px;
 }
@@ -362,6 +366,8 @@ Infelizmente, o pacote `IndexNumber` não possui uma função para mudança de b
 
 # Exercício 1
 
+Neste e nos próximos exercícios, os códigos inicialmente estão escondidos, mas basta clicar em "show code" para mostra-los. Porém, recomendo tentar resolver primeioro sem olhar o código.
+
 Vamos aplicar o assunto visto até agora em um exemplo real. Para isso, vamos utilizar uma base com os valores do PIB per capita do Brasil de 1996 a 2018, retirados do site do IBGE: https://www.ibge.gov.br/explica/pib.php
 
 A partir desta base, obtenha a série de números índices considerando
@@ -396,7 +402,7 @@ PIBpc %>%
 
 Para construir esse índice com base fixa em 2010, vamos utilizar a estrutura de repetição que vimos anteriormente:
 
-```{r}
+```{r, code_folding=TRUE}
 anobase <- which(PIBpc$Ano == 2010)
 
 for (i in 1:nrow(PIBpc)) {
@@ -414,7 +420,7 @@ Para construir o índice com uma base que é igual a média certos anos, a lógi
 
 Vamos primeiro calcular a média dos últimos cinco anos.
 
-```{r}
+```{r, code_folding=TRUE}
 media5u <- PIBpc$Valor %>%
   tail(5) %>% 
   mean()
@@ -424,7 +430,7 @@ media5u
 
 Agora vamos utilizar a estrutura de repetição para montar o índice.
 
-```{r}
+```{r, code_folding=TRUE}
 for (i in 1:nrow(PIBpc)) {
   PIBpc$`Índice 2014:2018`[i] <- (PIBpc$Valor[i] / media5u * 100) %>%
     round(digits = 2)
@@ -439,7 +445,7 @@ PIBpc %>%
 
 Para construir a base móvel basta dividir o valor de cada ano pelo valor do ano anterior. Lembrando que o primeiro ano não possui um ano anbterior para utilizar, portanto assinalamos um valor `NA` para ele. 
 
-```{r}
+```{r, code_folding=TRUE}
 PIBpc$`Base Móvel` <- NA
 
 for (i in 2:nrow(PIBpc)) {
@@ -615,7 +621,7 @@ cesta %>%
 
 Para calcular o IA basta dividir a soma dos preços de 2009 pela soma dos preços de 2006.
 
-```{r}
+```{r, code_folding=TRUE}
 IA <- sum(cesta$`Preço 2009`) / sum(cesta$`Preço 2006`) * 100
 
 IA
@@ -625,7 +631,7 @@ IA
 
 Para calcular o IS, precisamos calcular antes a divisão de cada item.
 
-```{r}
+```{r, code_folding=TRUE}
 divisao <- vector(length = nrow(cesta))
 
 for (i in 1:nrow(cesta)) {
@@ -637,7 +643,7 @@ divisao
 
 Agora, basta somar essas divisões e dividir pelo número de itens.
 
-```{r}
+```{r, code_folding=TRUE}
 IS <- (1 / nrow(cesta)) * sum(divisao) * 100
 
 IS
@@ -645,7 +651,7 @@ IS
 
 <br>
 
-# Índices agregados Ponderados
+# Índices agregados Ponderados (1)
 
 ### Índice de Laspeyres
 
@@ -654,8 +660,8 @@ IS
 O Índice de Laspeyres calcula a média ponderada dos preços relativos das mercadorias, usando como **fatores de ponderação** os valores monetários das quantidades de cada mercadoria vendidas na <span class="border"> **época base**.</span> Como os fatores de ponderação se referem ao período base e esse não muda, os pesos são fixos para todos os períodos.
 
 $$
-I_L = \frac{\sum_{i=1}^n \left(\frac{p_{it}}{p_{i0}}\right) \times \color{red}{(p_{i0}q_{i0})}}{\sum_{i=1}^n \color{red}{(p_{i0}q_{i0})}}
-    = \boxed{ \frac{\sum_{i=1}^np_{it} \times q_{i0}}{\sum_{i=1}^n p_{i0} \times q_{i0}} }
+I_L = \frac{\sum_{i=1}^n \left(\frac{p_{it}}{p_{i0}}\right) \times \color{red}{(p_{i0}q_{i\color{blue}{0}})}}{\sum_{i=1}^n \color{red}{(p_{i0}q_{i\color{blue}{0}})}}
+    = \boxed{ \frac{\sum_{i=1}^np_{it} \times q_{i\color{blue}{0}}}{\sum_{i=1}^n p_{i0} \times q_{i\color{blue}{0}}} }
 $$
 
 </div><br>
@@ -680,7 +686,340 @@ Importante observar:
 - Cesta usada é da época base
 - Pesos fixos enquanto não se mudar a base
 
+
 ### Índice de Paasche
 
+<div class="blue">
 
+O Índice de Paasche calcula a média ponderada dos preços relativos das mercadorias, usando como **fatores de ponderação** os valores monetários das quantidades de cada mercadoria vendidas em <span class="border"> **cada época**.</span> Como os fatores de ponderação se referem a períodos diferentes, os pesos variam com os períodos.
+
+
+$$
+I_P = \frac{\sum_{i=1}^n \left(\frac{p_{it}}{p_{i0}}\right) \times \color{red}{(p_{i0}q_{i\color{blue}{t}})}}{\sum_{i=1}^n \color{red}{(p_{i0}q_{i\color{blue}{t}})}}
+    = \boxed{ \frac{\sum_{i=1}^np_{it} \times q_{i\color{blue}{t}}}{\sum_{i=1}^n p_{i0} \times q_{i\color{blue}{t}}} }
+$$
+</div><br>
+
+### Relação entre IL e IP
+
+<div class="blue">
+
+Pode-se demonstrar que:
+
+$$
+\frac{I_{L_{0,t}}}{I_{P_{0,t}}} = 1 - \color{red}{r_{xy}} \frac{\sigma_x\sigma_y}{v_{0t}}
+$$
+
+Como
+
+$$
+v_{0t} = \frac{v_t}{v_0} > 0 \,;\quad \sigma_x > 0 \,;\quad \sigma_y > 0
+$$
+
+a relação entre os índices depende de $\color{red}{r_{xy}}$
+
+</div><br>
+
+Se
+
+- $r_{xy} > 0 \quad \rightarrow \quad I_{L_{0,t}} < I_{P_{0,t}}$
+  - Relativos de preço $x$ <span class="red">positivamente</span> correlacionados com relativos de quantidade $y$
+- $r_{xy} < 0 \quad \rightarrow \quad I_{L_{0,t}} > I_{P_{0,t}}$
+  - Relativos de preço $x$ <span class="red">negativamente</span> correlacionados com relativos de quantidade $y$
+
+Como veremos mais adiante, o índice de Fisher fica entre esses dois valore. 
+
+### Exemplo IL e IP
+
+Como exemplo dos índices de Laspeyres e Paasche, vamos utilizar a mesma tabela `compras` que utilizamos anteriormente.
+
+```{r}
+compras %>%
+  paged_table()
+```
+
+**Índice de Laspeyres**:
+
+$$
+I_L = \frac{\sum_{i=1}^np_{it} \times q_{i\color{blue}{0}}}{\sum_{i=1}^n p_{i0} \times q_{i\color{blue}{0}}}
+$$
+
+No R, vamos primeiro  construir os dois vetores de multiplicação do preço pela quantidade ($p_{it} \times q_{i0}$ e $p_{i0} \times q_{i0}$). Depois vamos construir uma estrutura de repetição `for` para preencher esses vetores. 
+
+```{r}
+Lpi0 <- vector(length = nrow(compras))
+Lpit <- vector(length = nrow(compras))
+
+for (i in 1:nrow(compras)) {
+  Lpi0[i] <- compras$`Preço 2016`[i] * compras$`Quantidade 2016`[i]
+  Lpit[i] <- compras$`Preço 2017`[i] * compras$`Quantidade 2016`[i]
+}
+
+data.frame(Lpi0, Lpit)
+```
+
+Em seguida, vamos fazer a divisão da soma desses vetores.
+
+```{r}
+IL <- sum(Lpit) / sum(Lpi0)
+
+IL
+```
+
+**Índice de Paasche**:
+
+$$
+I_P = \frac{\sum_{i=1}^np_{it} \times q_{i\color{blue}{t}}}{\sum_{i=1}^n p_{i0} \times q_{i\color{blue}{t}}}
+$$
+
+No R, o processo é o mesmo, porém ao invés de multiplicar pelas quantidades do ano base, multiplicamos pelas quantidades do ano corrente.
+
+```{r}
+Ppi0 <- vector(length = nrow(compras))
+Ppit <- vector(length = nrow(compras))
+
+for (i in 1:nrow(compras)) {
+  Ppi0[i] <- compras$`Preço 2016`[i] * compras$`Quantidade 2017`[i]
+  Ppit[i] <- compras$`Preço 2017`[i] * compras$`Quantidade 2017`[i]
+}
+
+data.frame(Ppi0, Ppit)
+```
+
+```{r}
+IP <- sum(Ppit) / sum(Ppi0)
+
+IP
+```
+
+<br>
+
+# Exercício 3
+
+Os dados abaixo referem-se às quantidades produzidas (toneladas) e os preços médios por quilograma (R$) recebidos pelos produtores.
+
+Calcular os índices IA, IS, IL e IP com ano-base 2010.
+
+```{r}
+tabela <- tibble(
+  "Bem" = c("A", "B", "C", "D", "E"),
+  "P2010" = c(5, 10, 3.5, 4.1, 8.0),
+  "Q2010" = c(100, 50, 120, 200, 180),
+  "P2011" = c(6, 15, 5.8, 6.0, 10.8),
+  "Q2011" = c(100, 60, 130, 250, 200),
+  "P2012" = c(10, 15, 6.6, 7.0, 11.5),
+  "Q2012" = c(120, 70, 110, 260, 200)
+)
+
+tabela %>%
+  paged_table()
+```
+
+### IA
+
+Para calcular o IA basta dividir a soma dos preços. Como o ano base é o de 2010, vamos calcular para 2011 e 2012.
+
+```{r, code_folding=TRUE}
+IA11 <- sum(tabela$P2011) / sum(tabela$P2010)
+IA12 <- sum(tabela$P2012) / sum(tabela$P2010)
+
+data.frame(IA11, IA12)
+```
+
+
+### IS
+
+Para calcular o IS, precisamos calcular antes a divisão do preço de cada item (do ano corrente pelo ano base) e depois somar essas divisões e dividir pelo número de itens.
+
+```{r, code_folding=TRUE}
+divisao11 <- vector(length = nrow(tabela))
+divisao12 <- vector(length = nrow(tabela))
+
+for (i in 1:nrow(tabela)) {
+  divisao11[i] <- tabela$P2011[i] / tabela$P2010[i]
+  divisao12[i] <- tabela$P2012[i] / tabela$P2010[i]
+}
+
+IS11 <- (1 / nrow(tabela)) * sum(divisao11)
+IS12 <- (1 / nrow(tabela)) * sum(divisao12)
+
+data.frame(IS11, IS12)
+```
+
+### IL
+
+Para calcular o IL, precisamos calcular antes os vetores de multiplicação do preço (de cada ano) pela quantidade **(do ano base)** e depois fazer a divisão da soma desses vetores (do ano corrente pelo ano base).
+
+```{r, code_folding=TRUE}
+Lpi0 <- vector(length = nrow(tabela))
+Lpi11 <- vector(length = nrow(tabela))
+Lpi12 <- vector(length = nrow(tabela))
+
+for (i in 1:nrow(tabela)) {
+  Lpi0[i] <- tabela$P2010[i] * tabela$Q2010[i]
+  Lpi11[i] <- tabela$P2011[i] * tabela$Q2010[i]
+  Lpi12[i] <- tabela$P2012[i] * tabela$Q2010[i]
+}
+
+IL11 <- sum(Lpi11) / sum(Lpi0)
+IL12 <- sum(Lpi12) / sum(Lpi0)
+
+data.frame(IL11, IL12)
+```
+
+
+### IP
+
+Para calcular o IP, precisamos calcular antes os vetores de multiplicação do preço (de cada ano) pela quantidade **(de cada ano)** e depois fazer a divisão da soma desses vetores (do ano corrente pelo ano base).
+
+```{r, code_folding=TRUE}
+Ppi011 <- vector(length = nrow(tabela))
+Ppi012 <- vector(length = nrow(tabela))
+Ppi11 <- vector(length = nrow(tabela))
+Ppi12 <- vector(length = nrow(tabela))
+
+for (i in 1:nrow(tabela)) {
+  Ppi011[i] <- tabela$P2010[i] * tabela$Q2011[i]
+  Ppi012[i] <- tabela$P2010[i] * tabela$Q2012[i]
+  Ppi11[i] <- tabela$P2011[i] * tabela$Q2011[i]
+  Ppi12[i] <- tabela$P2012[i] * tabela$Q2012[i]
+}
+
+IP11 <- sum(Ppi11) / sum(Ppi011)
+IP12 <- sum(Ppi12) / sum(Ppi012)
+
+data.frame(IP11, IP12)
+```
+
+<br>
+
+# Índices agregados Ponderados (2)
+
+### Índice de Fisher
+
+<div class="blue">
+
+O Índice de Fisher é calculado a partir da média geométrica dos índices de Laspeyres e Paasche:
+
+$$
+I_F = \sqrt{I_L \times 
+I_P}
+$$
+
+É um valor intermediário.
+
+</div><br>
+
+**Exemplo**
+
+Vamos utilizar a tabela `compras` para exemplificar o cálculo desse índice.
+
+```{r}
+compras %>%
+  paged_table()
+```
+
+Como calculamos anteriormente:
+
+```{r}
+Lpi0 <- vector(length = nrow(compras))
+Lpit <- vector(length = nrow(compras))
+
+for (i in 1:nrow(compras)) {
+  Lpi0[i] <- compras$`Preço 2016`[i] * compras$`Quantidade 2016`[i]
+  Lpit[i] <- compras$`Preço 2017`[i] * compras$`Quantidade 2016`[i]
+}
+
+IL <- sum(Lpit) / sum(Lpi0)
+
+
+Ppi0 <- vector(length = nrow(compras))
+Ppit <- vector(length = nrow(compras))
+
+for (i in 1:nrow(compras)) {
+  Ppi0[i] <- compras$`Preço 2016`[i] * compras$`Quantidade 2017`[i]
+  Ppit[i] <- compras$`Preço 2017`[i] * compras$`Quantidade 2017`[i]
+}
+
+IP <- sum(Ppit) / sum(Ppi0)
+
+
+data.frame(IL, IP)
+```
+
+Para calcularmos o IF, basta tirar a média geométrica desses dois valores.
+
+```{r}
+IF <- sqrt(IL * IP)
+
+IF
+```
+
+### Índice de Marshall-Edgeworth
+
+<div class="blue">
+
+O índice de Marshall-Edgeworth mede a variação no valor gasto, em função da variação dos preços para adquirir a quantidade dada pela cesta média da época base e a época atual.
+
+$$
+I_{ME} = \frac{\sum_{i=1}^n p_{it} \times \color{red}{\frac{(q_{i0}+q_{it})}{2}}}{\sum_{i=1}^n \color{red}{\frac{(q_{i0}+q_{it})}{2}}}
+    = \boxed{ 
+    \frac{\sum_{i=1}^n p_{it} \times \color{red}{(q_{i0}+q_{it})}}{\sum_{i=1}^n p_{i0} \times \color{red}{(q_{i0}+q_{it})}}
+    }
+$$
+
+</div><br>
+
+**Exemplo**
+
+Vamos utilizar a tabela `compras` para exemplificar o cálculo desse índice.
+
+```{r}
+compras %>%
+  paged_table()
+```
+
+```{r}
+MEpi0 <- vector(length = nrow(compras))
+MEpit <- vector(length = nrow(compras))
+
+for (i in 1:nrow(compras)) {
+  MEpi0[i] <- compras$`Preço 2016`[i] * (compras$`Quantidade 2016`[i] + compras$`Quantidade 2017`[i])
+  MEpit[i] <- compras$`Preço 2017`[i] * (compras$`Quantidade 2016`[i] + compras$`Quantidade 2017`[i])
+}
+
+IME <- sum(MEpit) / sum(MEpi0)
+
+IME
+```
+
+### Índice de Divisia
+
+<div class="blue">
+
+O Índice de Divisia calcula a média geométrica ponderada dos relativos.
+
+$$
+I_D = \prod_{i=1}^n \left( \frac{p_{it}}{p_{i0}} \right)^{w_{it}}
+$$
+
+Com 
+
+$$
+\sum_{i=1}^nw_{it} = 1
+$$
+
+</div><br>
+
+O fator de ponderação *pode* ser dado pela média aritmética das participações do produto no **valor total** nos dois períodos comparados [@hoffmann1980estatistica]:
+
+$$
+w_{it} = \frac{1}{2} \left( \frac{p_{i0}q_{i0}}{v_0} + \frac{p_{it}q_{it}}{v_t} \right) \,;\qquad
+v_0 = \sum_{i=1}^np_{i0}q_{i0} \,;\qquad
+v_t = \sum_{i=1}^np_{it}q_{it}
+$$
+
+Outra alternativa é usar pesos fixos na época base.
+
+**Exemplo**
 
