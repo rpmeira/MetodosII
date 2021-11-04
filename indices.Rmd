@@ -217,7 +217,7 @@ Existem dois métodos para a escolha da base:
 
 </div><br>
 
-Vamos utilizar um exemplo para demonstrar os dois métodos. Vamos supor que temos os seguintes dados sobre a venda de automóveis leves no Brasil:
+Vamos utilizar um exemplo para demonstrar os dois métodos. Vamos supor que temos os seguintes dados sobre a venda de automóveis leves no Brasil. Para criar a tabela, vamos utilizar a função `tibble`, que cria um data frame.
 
 ```{r}
 automoveis <- tibble(
@@ -238,50 +238,12 @@ Q_{2011,2011} = \frac{3491}{3491} \times 100 = 100.00 \quad ; \qquad
 Q_{2011,2012} = \frac{3628}{3491} \times 100 = 106.11
 $$
 
-No R, podemos assim adicionar esse índice à tabela:
+No R, podemos adicionar esse índice à tabela usando a função `mutate`. A função `mutate_if` sera usada apenas para arredondar os valores das variáveis que forem numéricas (nesse caso, todas são).
 
 ```{r}
-for (i in 1:nrow(automoveis)) {
-  automoveis$`Índice 2011`[i] <- (
-      (automoveis$Quantidade[i] / automoveis$Quantidade[1]) * 100
-    ) %>%
-    round(digits = 2)
-}
-```
-
-Utilizamos a estrutura de repetição `for`, que executa o comando indicado para todos os valores especificados, `i`, que no caso se refere a todas as linhas da tabela `automoveis`. 
-O comando executado é a divisão da linha `i` pela linha `1` (que é o ano base que escolhemos), seguida da sua multiplicação por 100.
-Esse comando é atribuído a uma coluna nova da tabela `automoveis`, que estamos criando agora com o nome de `Índice 2011`.
-
-```{r}
-automoveis %>%
-  paged_table()
-```
-
-Como já poderia ser esperado, existem pacotes que automatizam esse processo. Um deles é o `IndexNumber`, que pode assim ser instalado e carregado:
-
-```{r, eval=FALSE}
-install.packages("IndexNumber")
-```
-
-```{r}
-library(IndexNumber)
-```
-
-Vamos utilizar a função `index.number.serie` desse pacote para calcular o índice que quantidade visto acima.
-
-```{r}
-index.number.serie(x = automoveis$Quantidade, name = "Quantidade") %>%
-  paged_table()
-```
-
-Podemos pegar apenas a coluna que desejamos, `Index number`, e acrescentar a nossa tabela já existente:
-
-```{r}
-indice <- index.number.serie(x = automoveis$Quantidade, name = "Quantidade")
-
 automoveis_I <- automoveis %>%
-  mutate("Índice" = indice$`Index number` %>% round(digits = 2))
+  mutate("Índice 2011" = `Quantidade` / `Quantidade`[1] * 100) %>%
+  mutate_if(is.numeric, round, digits = 3)
 
 automoveis_I %>%
   paged_table()
@@ -295,20 +257,16 @@ Vamos escolher o ano de 2016 para ser a nova base.
 Uma vez que já temos um índice criado, para mudarmos a base basta dividir o valor desse índice de cada período pelo valor do índice no período da nova base. Assim, sendo a nova base o período de 2016:
 
 $$
-Q_{2016, 2011} = \frac{100}{58.12} \times 100 = 172.05
+Q_{2016, 2011} = \frac{100}{58.12} \times 100 = 172.06
 $$
-
-No R, podemos aplicar essa operação com uma estrutura de repetição, como fizemos para criar o primeiro índice:
+No R, vamos criar uma nova coluna usando o `mutate`.
 
 ```{r}
-for (i in 1:nrow(automoveis)) {
-  automoveis$`Índice 2016`[i] <- (
-      (automoveis$`Índice 2011`[i] / automoveis$`Índice 2011`[6]) * 100
-    ) %>%
-    round(digits = 2)
-}
+automoveis_2016 <- automoveis_I %>%
+  mutate("Índice 2016" = `Índice 2011` / `Índice 2011`[6] * 100) %>%
+  mutate_if(is.numeric, round, digits = 3)
 
-automoveis %>%
+automoveis_2016 %>%
   paged_table()
 ```
 
@@ -316,18 +274,16 @@ Para não ter que contar em qual linha está o ano que queremos utilizar como ba
 
 ```{r}
 anobase <- which(automoveis$Ano == 2016)
+
 anobase
 ```
 
 ```{r}
-for (i in 1:nrow(automoveis)) {
-  automoveis$`Índice 2016`[i] <- (
-      (automoveis$`Índice 2011`[i] / automoveis$`Índice 2011`[anobase]) * 100
-    ) %>%
-    round(digits = 2)
-}
+automoveis_2016 <- automoveis_I %>%
+  mutate("Índice 2016" = `Índice 2011` / `Índice 2011`[anobase] * 100) %>%
+  mutate_if(is.numeric, round, digits = 3)
 
-automoveis %>%
+automoveis_2016 %>%
   paged_table()
 ```
 
@@ -344,23 +300,17 @@ $$
 
 </div><br>
 
-No R, basta indicar que o ano base deve mudar para cada observação, sendo o ano anterior o desejado. Como o primeiro ano não possui um período anterior de referência, ele fica em branco. Assim, precisamos indicar ao R que essa linha ficará sem dados (`NA`) e na estrutura de repetição `for` vamos começar da segunda linha, indicando que `i in 2:nrow(automoveis`).
+No R, vamos utilizar a função `lag()`, com `n = 1`, para indicar que queremos a linha anterior.
 
 ```{r}
-automoveis$`Base Móvel` <- NA
+automoveis_Bmovel <- automoveis_2016 %>%
+  mutate("Base móvel" = `Índice 2011` / lag(`Índice 2011`, n = 1) * 100) %>% 
+  mutate_if(is.numeric, round, digits = 3)
 
-for (i in 2:nrow(automoveis)) {
-  automoveis$`Base Móvel`[i] <- (
-      (automoveis$`Quantidade`[i] / automoveis$`Quantidade`[i-1]) * 100
-    ) %>%
-    round(digits = 2)
-}
-
-automoveis %>%
+automoveis_Bmovel %>%
   paged_table()
 ```
 
-Infelizmente, o pacote `IndexNumber` não possui uma função para mudança de base. 
 
 <br>
 
@@ -405,14 +355,14 @@ Para construir esse índice com base fixa em 2010, vamos utilizar a estrutura de
 ```{r, code_folding=TRUE}
 anobase <- which(PIBpc$Ano == 2010)
 
-for (i in 1:nrow(PIBpc)) {
-  PIBpc$`Índice 2010`[i] <- (PIBpc$Valor[i] / PIBpc$Valor[anobase] * 100) %>%
-    round(digits = 2)
-}
+PIBpc_2010 <- PIBpc %>%
+  mutate("Índice 2010" = `Valor` / `Valor`[anobase] * 100) %>%
+  mutate_if(is.numeric, round, digits = 3)
 
-PIBpc %>%
+PIBpc_2010 %>%
   paged_table()
 ```
+
 
 ### b. Base fixa igual à média dos últimos cinco anos.
 
@@ -428,34 +378,31 @@ media5u <- PIBpc$Valor %>%
 media5u
 ```
 
-Agora vamos utilizar a estrutura de repetição para montar o índice.
+Agora vamos montar o índice.
 
 ```{r, code_folding=TRUE}
-for (i in 1:nrow(PIBpc)) {
-  PIBpc$`Índice 2014:2018`[i] <- (PIBpc$Valor[i] / media5u * 100) %>%
-    round(digits = 2)
-}
+PIBpc_media5u <- PIBpc_2010 %>%
+  mutate("Índice 2014:2018" = `Valor` / media5u * 100) %>%
+  mutate_if(is.numeric, round, digits = 3)
 
-PIBpc %>%
+PIBpc_media5u %>%
   paged_table()
 ```
 
 
 ### c. Calcule a variação percentual anual (base móvel)
 
-Para construir a base móvel basta dividir o valor de cada ano pelo valor do ano anterior. Lembrando que o primeiro ano não possui um ano anbterior para utilizar, portanto assinalamos um valor `NA` para ele. 
+Para construir a base móvel basta dividir o valor de cada ano pelo valor do ano anterior. 
 
 ```{r, code_folding=TRUE}
-PIBpc$`Base Móvel` <- NA
+PIBpc_BMovel <- PIBpc_media5u %>%
+  mutate("Base Móvel" = `Valor` / lag(`Valor`, n = 1) * 100) %>%
+  mutate_if(is.numeric, round, digits = 3)
 
-for (i in 2:nrow(PIBpc)) {
-  PIBpc$`Base Móvel`[i] <- (PIBpc$`Valor`[i] / PIBpc$`Valor`[i-1] * 100) %>%
-    round(digits = 2)
-}
-
-PIBpc %>%
+PIBpc_BMovel %>%
   paged_table()
 ```
+
 
 ### d. Interprete os resultados.
 
@@ -525,7 +472,7 @@ compras %>%
   paged_table()
 ```
 
-Para calcular o índice de Bradstreet basta dividirmos a soma dos preços em 2017 pela soma dos preços em 2016. Observe que o índice NÃO utiliza as quantidades no cálculo. Vamos multiplicar o resultado por 100 para ficar no mesmo formato que viemos utilizando.
+Para calcular o índice de Bradstreet basta dividirmos a soma dos preços em 2017 pela soma dos preços em 2016. Observe que o índice **NÃO** utiliza as quantidades no cálculo. Vamos multiplicar o resultado por 100 para ficar no mesmo formato que viemos utilizando.
 
 ```{r}
 IA <- sum(compras$`Preço 2017`) / sum(compras$`Preço 2016`) * 100
@@ -537,7 +484,7 @@ IA
 
 <div class="blue">
 
-Esse índice calcula a média aritmética simples de relativos de preços. Observe que é a soma da divião dos preços, e não a divisão das somas dos preços.
+Esse índice calcula a média aritmética simples de relativos de preços. Observe que é a soma da divisão dos preços, e não a divisão das somas dos preços.
 
 $$
 I_S = \frac{1}{n} \sum_{i=1}^n \frac{p_{it}}{p_{i0}}
@@ -551,21 +498,11 @@ Vamos utilizar o mesmo exemplo das compras mostrado acima.
 compras %>%
   paged_table()
 ```
+Vamos calcular a soma das razões entre os preços de 2017 e 2016.
 
-Neste caso, vamos ter que utilizar uma estrutura de repetição para facilitar o cálculo da somatória das divisões.
-
-```{r}
-divisoes <- vector(length = nrow(compras))
-
-for (i in 1:nrow(compras)) {
-  divisoes[i] <- compras$`Preço 2017`[i] / compras$`Preço 2016`[i]
-}
-
-divisoes
-```
 
 ```{r}
-IS <- (1 / nrow(compras)) * sum(divisoes) * 100
+IS <- sum(compras$`Preço 2017` / compras$`Preço 2016`) / nrow(compras) * 100
 
 IS
 ```
@@ -629,22 +566,10 @@ IA
 
 ### IS
 
-Para calcular o IS, precisamos calcular antes a divisão de cada item.
+Para calcular o IS, precisamos calcular a soma da divisão de cada item e depois dividir pelo número de itens.
 
 ```{r, code_folding=TRUE}
-divisao <- vector(length = nrow(cesta))
-
-for (i in 1:nrow(cesta)) {
-  divisao[i] <- cesta$`Preço 2009`[i] / cesta$`Preço 2006`[i]
-}
-
-divisao
-```
-
-Agora, basta somar essas divisões e dividir pelo número de itens.
-
-```{r, code_folding=TRUE}
-IS <- (1 / nrow(cesta)) * sum(divisao) * 100
+IS <- sum(cesta$`Preço 2009` / cesta$`Preço 2006`) / nrow(cesta) * 100
 
 IS
 ```
@@ -744,24 +669,11 @@ $$
 I_L = \frac{\sum_{i=1}^np_{it} \times q_{i\color{blue}{0}}}{\sum_{i=1}^n p_{i0} \times q_{i\color{blue}{0}}}
 $$
 
-No R, vamos primeiro  construir os dois vetores de multiplicação do preço pela quantidade ($p_{it} \times q_{i0}$ e $p_{i0} \times q_{i0}$). Depois vamos construir uma estrutura de repetição `for` para preencher esses vetores. 
+No R, basta fazer a divisão das duas somas.
 
 ```{r}
-Lpi0 <- vector(length = nrow(compras))
-Lpit <- vector(length = nrow(compras))
-
-for (i in 1:nrow(compras)) {
-  Lpi0[i] <- compras$`Preço 2016`[i] * compras$`Quantidade 2016`[i]
-  Lpit[i] <- compras$`Preço 2017`[i] * compras$`Quantidade 2016`[i]
-}
-
-data.frame(Lpi0, Lpit)
-```
-
-Em seguida, vamos fazer a divisão da soma desses vetores.
-
-```{r}
-IL <- sum(Lpit) / sum(Lpi0)
+IL <- sum(compras$`Preço 2017` * compras$`Quantidade 2016`) / 
+      sum(compras$`Preço 2016` * compras$`Quantidade 2016`) 
 
 IL
 ```
@@ -772,22 +684,11 @@ $$
 I_P = \frac{\sum_{i=1}^np_{it} \times q_{i\color{blue}{t}}}{\sum_{i=1}^n p_{i0} \times q_{i\color{blue}{t}}}
 $$
 
-No R, o processo é o mesmo, porém ao invés de multiplicar pelas quantidades do ano base, multiplicamos pelas quantidades do ano corrente.
+No R, basta fazer a divisão das duas somas.
 
 ```{r}
-Ppi0 <- vector(length = nrow(compras))
-Ppit <- vector(length = nrow(compras))
-
-for (i in 1:nrow(compras)) {
-  Ppi0[i] <- compras$`Preço 2016`[i] * compras$`Quantidade 2017`[i]
-  Ppit[i] <- compras$`Preço 2017`[i] * compras$`Quantidade 2017`[i]
-}
-
-data.frame(Ppi0, Ppit)
-```
-
-```{r}
-IP <- sum(Ppit) / sum(Ppi0)
+IP <- sum(compras$`Preço 2017` * compras$`Quantidade 2017`) / 
+      sum(compras$`Preço 2016` * compras$`Quantidade 2017`) 
 
 IP
 ```
@@ -817,8 +718,6 @@ tabela %>%
 
 ### IA
 
-Para calcular o IA basta dividir a soma dos preços. Como o ano base é o de 2010, vamos calcular para 2011 e 2012.
-
 ```{r, code_folding=TRUE}
 IA11 <- sum(tabela$P2011) / sum(tabela$P2010)
 IA12 <- sum(tabela$P2012) / sum(tabela$P2010)
@@ -826,67 +725,36 @@ IA12 <- sum(tabela$P2012) / sum(tabela$P2010)
 data.frame(IA11, IA12)
 ```
 
-
 ### IS
 
-Para calcular o IS, precisamos calcular antes a divisão do preço de cada item (do ano corrente pelo ano base) e depois somar essas divisões e dividir pelo número de itens.
-
 ```{r, code_folding=TRUE}
-divisao11 <- vector(length = nrow(tabela))
-divisao12 <- vector(length = nrow(tabela))
-
-for (i in 1:nrow(tabela)) {
-  divisao11[i] <- tabela$P2011[i] / tabela$P2010[i]
-  divisao12[i] <- tabela$P2012[i] / tabela$P2010[i]
-}
-
-IS11 <- (1 / nrow(tabela)) * sum(divisao11)
-IS12 <- (1 / nrow(tabela)) * sum(divisao12)
+IS11 <- sum(tabela$P2011 / tabela$P2010) / nrow(tabela)
+IS12 <- sum(tabela$P2012 / tabela$P2010) / nrow(tabela)
 
 data.frame(IS11, IS12)
 ```
 
+
 ### IL
 
-Para calcular o IL, precisamos calcular antes os vetores de multiplicação do preço (de cada ano) pela quantidade **(do ano base)** e depois fazer a divisão da soma desses vetores (do ano corrente pelo ano base).
-
 ```{r, code_folding=TRUE}
-Lpi0 <- vector(length = nrow(tabela))
-Lpi11 <- vector(length = nrow(tabela))
-Lpi12 <- vector(length = nrow(tabela))
+IL11 <- sum(tabela$P2011 * tabela$Q2010) /
+        sum(tabela$P2010 * tabela$Q2010)
 
-for (i in 1:nrow(tabela)) {
-  Lpi0[i] <- tabela$P2010[i] * tabela$Q2010[i]
-  Lpi11[i] <- tabela$P2011[i] * tabela$Q2010[i]
-  Lpi12[i] <- tabela$P2012[i] * tabela$Q2010[i]
-}
-
-IL11 <- sum(Lpi11) / sum(Lpi0)
-IL12 <- sum(Lpi12) / sum(Lpi0)
+IL12 <- sum(tabela$P2012 * tabela$Q2010) /
+        sum(tabela$P2010 * tabela$Q2010)
 
 data.frame(IL11, IL12)
 ```
 
-
 ### IP
 
-Para calcular o IP, precisamos calcular antes os vetores de multiplicação do preço (de cada ano) pela quantidade **(de cada ano)** e depois fazer a divisão da soma desses vetores (do ano corrente pelo ano base).
-
 ```{r, code_folding=TRUE}
-Ppi011 <- vector(length = nrow(tabela))
-Ppi012 <- vector(length = nrow(tabela))
-Ppi11 <- vector(length = nrow(tabela))
-Ppi12 <- vector(length = nrow(tabela))
+IP11 <- sum(tabela$P2011 * tabela$Q2011) /
+        sum(tabela$P2010 * tabela$Q2011)
 
-for (i in 1:nrow(tabela)) {
-  Ppi011[i] <- tabela$P2010[i] * tabela$Q2011[i]
-  Ppi012[i] <- tabela$P2010[i] * tabela$Q2012[i]
-  Ppi11[i] <- tabela$P2011[i] * tabela$Q2011[i]
-  Ppi12[i] <- tabela$P2012[i] * tabela$Q2012[i]
-}
-
-IP11 <- sum(Ppi11) / sum(Ppi011)
-IP12 <- sum(Ppi12) / sum(Ppi012)
+IP12 <- sum(tabela$P2012 * tabela$Q2012) /
+        sum(tabela$P2010 * tabela$Q2012)
 
 data.frame(IP11, IP12)
 ```
@@ -902,8 +770,7 @@ data.frame(IP11, IP12)
 O Índice de Fisher é calculado a partir da média geométrica dos índices de Laspeyres e Paasche:
 
 $$
-I_F = \sqrt{I_L \times 
-I_P}
+I_F = \sqrt{I_L \times I_P}
 $$
 
 É um valor intermediário.
@@ -922,27 +789,11 @@ compras %>%
 Como calculamos anteriormente:
 
 ```{r}
-Lpi0 <- vector(length = nrow(compras))
-Lpit <- vector(length = nrow(compras))
+IL <- sum(compras$`Preço 2017` * compras$`Quantidade 2016`) / 
+      sum(compras$`Preço 2016` * compras$`Quantidade 2016`) 
 
-for (i in 1:nrow(compras)) {
-  Lpi0[i] <- compras$`Preço 2016`[i] * compras$`Quantidade 2016`[i]
-  Lpit[i] <- compras$`Preço 2017`[i] * compras$`Quantidade 2016`[i]
-}
-
-IL <- sum(Lpit) / sum(Lpi0)
-
-
-Ppi0 <- vector(length = nrow(compras))
-Ppit <- vector(length = nrow(compras))
-
-for (i in 1:nrow(compras)) {
-  Ppi0[i] <- compras$`Preço 2016`[i] * compras$`Quantidade 2017`[i]
-  Ppit[i] <- compras$`Preço 2017`[i] * compras$`Quantidade 2017`[i]
-}
-
-IP <- sum(Ppit) / sum(Ppi0)
-
+IP <- sum(compras$`Preço 2017` * compras$`Quantidade 2017`) / 
+      sum(compras$`Preço 2016` * compras$`Quantidade 2017`) 
 
 data.frame(IL, IP)
 ```
@@ -980,18 +831,24 @@ compras %>%
 ```
 
 ```{r}
-MEpi0 <- vector(length = nrow(compras))
-MEpit <- vector(length = nrow(compras))
-
-for (i in 1:nrow(compras)) {
-  MEpi0[i] <- compras$`Preço 2016`[i] * (compras$`Quantidade 2016`[i] + compras$`Quantidade 2017`[i])
-  MEpit[i] <- compras$`Preço 2017`[i] * (compras$`Quantidade 2016`[i] + compras$`Quantidade 2017`[i])
-}
-
-IME <- sum(MEpit) / sum(MEpi0)
+IME <- sum(compras$`Preço 2017` * (compras$`Quantidade 2016` + compras$`Quantidade 2017`)) /
+       sum(compras$`Preço 2016` * (compras$`Quantidade 2016` + compras$`Quantidade 2017`))
 
 IME
 ```
+
+Uma forma alternativa de obter esse mesmo resultado, porém sem ter que digitar `compras` tantas vezes é utilizando a função `with`.
+
+```{r}
+IME <- with(
+  data = compras,
+  expr = sum(`Preço 2017` * (`Quantidade 2016` + `Quantidade 2017`)) /
+         sum(`Preço 2016` * (`Quantidade 2016` + `Quantidade 2017`))
+)
+
+IME
+```
+
 
 ### Índice de Divisia
 
@@ -1019,7 +876,106 @@ v_0 = \sum_{i=1}^np_{i0}q_{i0} \,;\qquad
 v_t = \sum_{i=1}^np_{it}q_{it}
 $$
 
-Outra alternativa é usar pesos fixos na época base.
+- Uma alternativa é usar pesos fixos na época base.
 
 **Exemplo**
 
+Vamos utilizar a tabela `compras` para calcular o ID com pesos fixos na época base.
+
+```{r}
+compras %>%
+  paged_table()
+```
+Como vamos utilizar pesos fixos na época base, esses pesos são calculados pela percentagem, na época base, do valor ($P \times Q$) de cada item sobre o valor total.
+
+```{r}
+Pesos <- with(
+  data = compras,
+  expr = (`Preço 2016` * `Quantidade 2016`) / 
+         sum(`Preço 2016` * `Quantidade 2016`)
+)
+
+Pesos
+
+ID <- with(
+  data = compras,
+  expr = prod((`Preço 2017` / `Preço 2016`) ^ Pesos)
+)
+
+ID
+```
+
+<br>
+
+# Índices de quantidade
+
+Os índices de quantidade são semelhantes aos de preço:
+
+**Índice de Laspeyres**:
+
+$$
+I_L = \frac{\sum_{i=1}^nq_{it} \times p_{i\color{blue}{0}}}{\sum_{i=1}^n q_{i0} \times p_{i\color{blue}{0}}}
+$$
+
+**Índice de Paasche**:
+
+$$
+I_P = \frac{\sum_{i=1}^nq_{it} \times p_{i\color{blue}{t}}}{\sum_{i=1}^n q_{i0} \times p_{i\color{blue}{t}}}
+$$
+
+
+**Índice de Fisher**:
+
+$$
+I_F = \sqrt{I_L \times I_P}
+$$
+
+<br>
+
+# Índices de Valor
+
+**Índice de Laspeyres**:
+
+$$
+I_L = \frac{\sum_{i=1}^np_{it} \times q_{i\color{blue}{t}}}{\sum_{i=1}^n p_{i0} \times q_{i\color{blue}{0}}}
+$$
+
+<br>
+
+# Exercícios Extra
+
+### Extra 1
+
+Analise as variações de preços pelo índice de Fisher, ME e de Divisia.
+
+```{r}
+ex1 <- tibble(
+  "Bem" = c("A", "B", "C"),
+  "Preço 2017" = c(1, 3, 4),
+  "Quantidade 2017" = c(1000, 1500, 1000),
+  "Preço 2018" = c(2, 4, 3),
+  "Quantidade 2018" = c(500, 1200, 1200),
+)
+
+ex1 %>%
+  paged_table()
+```
+
+### Extra 2
+
+Com base nos dados a seguir, analise a variação dos preços por meio dos IL, IP, IF, ME e ID, tomando 2010 como ano base.
+
+```{r}
+ex2 <- tibble(
+  "Produto" = c("Arroz (kg)", "Feijão (Kg)", "Pão (u)"),
+  "Preço 2010" = c(2.5, 1.2, 0.1),
+  "Quantidade 2010" = c(10, 5, 200),
+  "Preço 2011" = c(3, 1.8, 0.12),
+  "Quantidade 2011" = c(12, 6, 220),
+  "Preço 2012" = c(3.25, 1.8, 0.14),
+  "Quantidade 2012" = c(15, 7, 240)
+)
+
+ex2 %>%
+  paged_table()
+```
