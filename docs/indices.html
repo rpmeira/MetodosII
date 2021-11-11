@@ -2766,7 +2766,7 @@ V_{0,t} = \frac{Q_t \times P_t}{Q_0 \times Q_0} = \frac{12 \times 4000}{20 \time
 \]</span></p>
 <p>O que indica que o valor das importações em 2013 representa 80% do valor em 2010. Se quisermos indicar a variação do valor:</p>
 <p><span class="math display">\[
-(0.8 - 1) \times 100 = 20\%
+(0.8 - 1) \times 100 = - 20\%
 \]</span></p>
 <p>Ou seja, o valor das importações caiu 20%.</p>
 <p><br></p>
@@ -2783,7 +2783,7 @@ V_{0,t} = \frac{Q_t \times P_t}{Q_0 \times Q_0} = \frac{12 \times 4000}{20 \time
 <p>Vamos utilizar um exemplo para demonstrar os dois métodos. Vamos supor que temos os seguintes dados sobre a venda de automóveis leves no Brasil. Para criar a tabela, vamos utilizar a função <code>tibble</code>, que cria um data frame.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>automoveis</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>automoveis</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
   <span class='st'>"Ano"</span> <span class='op'>=</span> <span class='fl'>2011</span><span class='op'>:</span><span class='fl'>2017</span>,
   <span class='st'>"Quantidade"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3419</span>, <span class='fl'>3628</span>, <span class='fl'>3571</span>, <span class='fl'>3326</span>, <span class='fl'>2463</span>, <span class='fl'>1987</span>, <span class='fl'>1573</span><span class='op'>)</span>
 <span class='op'>)</span>
@@ -2807,8 +2807,8 @@ Q_{2011,2012} = \frac{3628}{3491} \times 100 = 106.11
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>automoveis_I</span> <span class='op'>&lt;-</span> <span class='va'>automoveis</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Índice 2011"</span> <span class='op'>=</span> <span class='va'>`Quantidade`</span> <span class='op'>/</span> <span class='va'>`Quantidade`</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate_if</span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Índice 2011"</span> <span class='op'>=</span> <span class='va'>`Quantidade`</span> <span class='op'>/</span> <span class='va'>`Quantidade`</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='va'>automoveis_I</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -2829,8 +2829,8 @@ Q_{2016, 2011} = \frac{100}{58.12} \times 100 = 172.06
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>automoveis_2016</span> <span class='op'>&lt;-</span> <span class='va'>automoveis_I</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Índice 2016"</span> <span class='op'>=</span> <span class='va'>`Índice 2011`</span> <span class='op'>/</span> <span class='va'>`Índice 2011`</span><span class='op'>[</span><span class='fl'>6</span><span class='op'>]</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate_if</span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Índice 2016"</span> <span class='op'>=</span> <span class='va'>`Índice 2011`</span> <span class='op'>/</span> <span class='va'>`Índice 2011`</span><span class='op'>[</span><span class='fl'>6</span><span class='op'>]</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='va'>automoveis_2016</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -2855,8 +2855,8 @@ Q_{2016, 2011} = \frac{100}{58.12} \times 100 = 172.06
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>automoveis_2016</span> <span class='op'>&lt;-</span> <span class='va'>automoveis_I</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Índice 2016"</span> <span class='op'>=</span> <span class='va'>`Índice 2011`</span> <span class='op'>/</span> <span class='va'>`Índice 2011`</span><span class='op'>[</span><span class='va'>anobase</span><span class='op'>]</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate_if</span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Índice 2016"</span> <span class='op'>=</span> <span class='va'>`Índice 2011`</span> <span class='op'>/</span> <span class='va'>`Índice 2011`</span><span class='op'>[</span><span class='va'>anobase</span><span class='op'>]</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='va'>automoveis_2016</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -2880,8 +2880,8 @@ x_{t-1,t} = \frac{x_t}{x_{t-1}}
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>automoveis_Bmovel</span> <span class='op'>&lt;-</span> <span class='va'>automoveis_2016</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Base móvel"</span> <span class='op'>=</span> <span class='va'>`Índice 2011`</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>`Índice 2011`</span>, n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate_if</span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Base móvel"</span> <span class='op'>=</span> <span class='va'>`Índice 2011`</span> <span class='op'>/</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/lead-lag.html'>lag</a></span><span class='op'>(</span><span class='va'>`Índice 2011`</span>, n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='va'>automoveis_Bmovel</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -2923,9 +2923,9 @@ x_{t-1,t} = \frac{x_t}{x_{t-1}}
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>PIBpc</span> <span class='op'>&lt;-</span> <span class='va'>dados</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>5</span><span class='op'>:</span><span class='op'>(</span><span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>select</span><span class='op'>(</span><span class='st'>"Ano"</span> <span class='op'>=</span> <span class='fl'>1</span>, <span class='st'>"Valor"</span> <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Ano"</span> <span class='op'>=</span> <span class='va'>`Ano`</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>:</span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='st'>"Ano"</span> <span class='op'>=</span> <span class='fl'>1</span>, <span class='st'>"Valor"</span> <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Ano"</span> <span class='op'>=</span> <span class='va'>`Ano`</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> 
 
 <span class='va'>PIBpc</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -2947,8 +2947,8 @@ Show code
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>anobase</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>PIBpc</span><span class='op'>$</span><span class='va'>Ano</span> <span class='op'>==</span> <span class='fl'>2010</span><span class='op'>)</span>
 
 <span class='va'>PIBpc_2010</span> <span class='op'>&lt;-</span> <span class='va'>PIBpc</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Índice 2010"</span> <span class='op'>=</span> <span class='va'>`Valor`</span> <span class='op'>/</span> <span class='va'>`Valor`</span><span class='op'>[</span><span class='va'>anobase</span><span class='op'>]</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate_if</span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Índice 2010"</span> <span class='op'>=</span> <span class='va'>`Valor`</span> <span class='op'>/</span> <span class='va'>`Valor`</span><span class='op'>[</span><span class='va'>anobase</span><span class='op'>]</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='va'>PIBpc_2010</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -2988,8 +2988,8 @@ Show code
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>PIBpc_media5u</span> <span class='op'>&lt;-</span> <span class='va'>PIBpc_2010</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Índice 2014:2018"</span> <span class='op'>=</span> <span class='va'>`Valor`</span> <span class='op'>/</span> <span class='va'>media5u</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate_if</span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Índice 2014:2018"</span> <span class='op'>=</span> <span class='va'>`Valor`</span> <span class='op'>/</span> <span class='va'>media5u</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='va'>PIBpc_media5u</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -3011,8 +3011,8 @@ Show code
 </summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>PIBpc_BMovel</span> <span class='op'>&lt;-</span> <span class='va'>PIBpc_media5u</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Base Móvel"</span> <span class='op'>=</span> <span class='va'>`Valor`</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>`Valor`</span>, n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate_if</span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Base Móvel"</span> <span class='op'>=</span> <span class='va'>`Valor`</span> <span class='op'>/</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/lead-lag.html'>lag</a></span><span class='op'>(</span><span class='va'>`Valor`</span>, n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='va'>PIBpc_BMovel</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -3083,7 +3083,7 @@ I_A = \frac{\sum_{i=1}^np_{it}}{\sum_{i=1}^np_{i0}}
 <p>Por exemplo, as compras de supermercado em duas épocas diferentes.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>compras</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>compras</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
   <span class='st'>"Mercadorias"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Carne (Kg)"</span>, <span class='st'>"Leite (L)"</span>, <span class='st'>"Cafeteira (u)"</span><span class='op'>)</span>,
   <span class='st'>"Preço 2016"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>4</span>, <span class='fl'>110</span><span class='op'>)</span>,
   <span class='st'>"Quantidade 2016"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6</span>, <span class='fl'>12</span>, <span class='fl'>1</span><span class='op'>)</span>,
@@ -3147,8 +3147,8 @@ I_S = \frac{1}{n} \sum_{i=1}^n \frac{p_{it}}{p_{i0}}
 <div class="layout-chunk" data-layout="l-body-outset">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>Isimples</span> <span class='op'>&lt;-</span> <span class='va'>compras</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span><span class='st'>"Índice 2016"</span> <span class='op'>=</span> <span class='op'>(</span><span class='va'>`Preço 2017`</span> <span class='op'>/</span> <span class='va'>`Preço 2016`</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate_if</span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span><span class='st'>"Índice 2016"</span> <span class='op'>=</span> <span class='op'>(</span><span class='va'>`Preço 2017`</span> <span class='op'>/</span> <span class='va'>`Preço 2016`</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_if</a></span><span class='op'>(</span><span class='va'>is.numeric</span>, <span class='va'>round</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 
 <span class='va'>Isimples</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://pkgs.rstudio.com/rmarkdown/reference/paged_table.html'>paged_table</a></span><span class='op'>(</span><span class='op'>)</span>
@@ -3191,7 +3191,7 @@ $IA
 <p>A partir dos dados abaixo, calcule o IA e IS e analise os resultados.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cesta</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>cesta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
   <span class='st'>"Bem"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Carne (Kg)"</span>, <span class='st'>"Batata (Kg)"</span>, <span class='st'>"Gasolina (l)"</span>, <span class='st'>"Calça Jeans (u)"</span><span class='op'>)</span>,
   <span class='st'>"Preço 2006"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>1.8</span>, <span class='fl'>2.1</span>, <span class='fl'>60</span><span class='op'>)</span>,
   <span class='st'>"Preço 2009"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>27</span>, <span class='fl'>2.2</span>, <span class='fl'>2.5</span>, <span class='fl'>80</span><span class='op'>)</span>
@@ -3348,7 +3348,7 @@ I_P = \frac{\sum_{i=1}^np_{it} \times q_{i\color{blue}{t}}}{\sum_{i=1}^n p_{i0} 
 <p>Calcular os índices IA, IS, IL e IP com ano-base 2010.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tabela</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>tabela</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
   <span class='st'>"Bem"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span>, <span class='st'>"C"</span>, <span class='st'>"D"</span>, <span class='st'>"E"</span><span class='op'>)</span>,
   <span class='st'>"P2010"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>3.5</span>, <span class='fl'>4.1</span>, <span class='fl'>8.0</span><span class='op'>)</span>,
   <span class='st'>"Q2010"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fl'>50</span>, <span class='fl'>120</span>, <span class='fl'>200</span>, <span class='fl'>180</span><span class='op'>)</span>,
@@ -3627,7 +3627,7 @@ I_L = \frac{\sum_{i=1}^np_{it} \times q_{i\color{blue}{t}}}{\sum_{i=1}^n p_{i0} 
 <p>Analise as variações de preços pelo índice de Fisher, ME e de Divisia.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex1</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
   <span class='st'>"Bem"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span>, <span class='st'>"C"</span><span class='op'>)</span>,
   <span class='st'>"Preço 2017"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>4</span><span class='op'>)</span>,
   <span class='st'>"Quantidade 2017"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1000</span>, <span class='fl'>1500</span>, <span class='fl'>1000</span><span class='op'>)</span>,
@@ -3649,7 +3649,7 @@ I_L = \frac{\sum_{i=1}^np_{it} \times q_{i\color{blue}{t}}}{\sum_{i=1}^n p_{i0} 
 <p>Com base nos dados a seguir, analise a variação dos preços por meio dos IL, IP, IF, ME e ID, tomando 2010 como ano base.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex2</span> <span class='op'>&lt;-</span> <span class='fu'>tibble</span><span class='op'>(</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ex2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span><span class='op'>(</span>
   <span class='st'>"Produto"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Arroz (kg)"</span>, <span class='st'>"Feijão (Kg)"</span>, <span class='st'>"Pão (u)"</span><span class='op'>)</span>,
   <span class='st'>"Preço 2010"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2.5</span>, <span class='fl'>1.2</span>, <span class='fl'>0.1</span><span class='op'>)</span>,
   <span class='st'>"Quantidade 2010"</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>5</span>, <span class='fl'>200</span><span class='op'>)</span>,

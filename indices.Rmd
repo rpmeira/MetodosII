@@ -197,7 +197,7 @@ $$
 O que indica que o valor das importações em 2013 representa 80% do valor em 2010. Se quisermos indicar a variação do valor:
 
 $$
-(0.8 - 1) \times 100 = 20\%
+(0.8 - 1) \times 100 = - 20\%
 $$
 
 Ou seja, o valor das importações caiu 20%.
