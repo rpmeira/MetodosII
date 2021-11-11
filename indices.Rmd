@@ -175,7 +175,7 @@ Ou seja, a quantidade caiu 20%.
 Utilizando a forma anterior, agora para o caso de valor:
 
 $$
-V_{0,t} = \frac{Q_t \times P_t}{Q_0 \times Q_0}
+V_{0,t} = \frac{Q_t \times P_t}{Q_0 \times P_0}
 $$
 
 </div><br>
