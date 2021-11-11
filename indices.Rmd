@@ -350,8 +350,6 @@ PIBpc %>%
 
 ### a. Base fixa igual a 2010.
 
-Para construir esse índice com base fixa em 2010, vamos utilizar a estrutura de repetição que vimos anteriormente:
-
 ```{r, code_folding=TRUE}
 anobase <- which(PIBpc$Ano == 2010)
 
@@ -513,8 +511,8 @@ Vamos construir um índice simples (como fizemos lá no início) para essa tabel
 
 ```{r, layout="l-body-outset"}
 Isimples <- compras %>%
-  mutate("Índice 2016" = (`Preço 2017` / `Preço 2016` * 100) %>% 
-           round(2))
+  mutate("Índice 2016" = (`Preço 2017` / `Preço 2016` * 100)) %>% 
+  mutate_if(is.numeric, round, digits = 3)
 
 Isimples %>%
   paged_table()
