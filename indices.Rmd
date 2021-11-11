@@ -162,7 +162,7 @@ $$
 O que indica que a quantidade em 2018 representa 80% da quantidade em 2012. Se quisermos indicar a variação da quantidade:
 
 $$
-(0.8 - 1) \times 100 = 20\%
+(0.8 - 1) \times 100 = - 20\%
 $$
 
 Ou seja, a quantidade caiu 20%.
