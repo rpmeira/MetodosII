@@ -633,6 +633,12 @@ $$
 \frac{I_{L_{0,t}}}{I_{P_{0,t}}} = 1 - \color{red}{r_{xy}} \frac{\sigma_x\sigma_y}{v_{0t}}
 $$
 
+Em que
+
+- $\sigma_x \quad$ é uma medida da dispersão dos preços relativos.
+- $\sigma_y \quad$ é uma medida da dispersão das quantidades relativas.
+- $r_{xy} \quad$ é o coeficiente de correlação entre preços relativos e quantidades relativas.
+
 Como
 
 $$
